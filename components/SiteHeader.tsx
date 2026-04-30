@@ -14,12 +14,8 @@ export default function SiteHeader() {
         </Link>
 
         <div className="flex items-center gap-4 text-xs tracking-[0.2em] uppercase text-[#faf6f0]/40">
-          <Link href="/?type=PROMPTED" className="hover:text-[#b87333] transition-colors">
-            Stories
-          </Link>
-          <span className="text-[#b87333]/30">·</span>
-          <Link href="/?type=FREE" className="hover:text-[#b87333] transition-colors">
-            Posts
+          <Link href="/about" className="hover:text-[#b87333] transition-colors">
+            Meet the Admin
           </Link>
           <span className="text-[#b87333]/30">·</span>
           <Link href="/admin" className="hover:text-[#b87333] transition-colors">
