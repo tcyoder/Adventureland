@@ -110,6 +110,10 @@ npx prisma generate            # Regenerate client after schema change
 npx prisma studio              # Browse/edit data in browser
 ```
 
+## Repository
+
+**GitHub:** https://github.com/tcyoder/Tomorrowland
+
 ## Progress
 
 ### Completed
@@ -133,9 +137,10 @@ npx prisma studio              # Browse/edit data in browser
 - [x] Manual "Assign This Week's Prompt" button in dashboard
 - [x] Art deco retro-futuristic design (copper/navy palette, Josefin Sans display font)
 - [x] Vercel cron config (`vercel.json`) — Mondays 1PM UTC
+- [x] `.gitignore` updated (excludes `*.db`, `.env*`, `public/uploads/`, generated Prisma client)
+- [x] Pushed to GitHub (https://github.com/tcyoder/Tomorrowland)
 
 ### Not Yet Built
 - [ ] Deploy to Vercel (needs production DB — swap `better-sqlite3` for Neon/Postgres adapter)
-- [ ] `.gitignore` review (ensure `dev.db`, `.env.local`, `public/uploads/` are excluded)
 - [ ] Image uploads in the Tiptap editor body (currently only cover image upload works)
 - [ ] Email notification when weekly prompt is assigned (optional)
