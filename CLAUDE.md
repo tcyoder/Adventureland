@@ -96,6 +96,7 @@ NEXTAUTH_URL="http://localhost:3000"
 ADMIN_USERNAME="admin"
 ADMIN_PASSWORD_HASH="bcrypt-hash"   # node -e "require('bcryptjs').hash('pw',12).then(console.log)"
 CRON_SECRET="random-string"         # sent as x-cron-secret header by Vercel cron
+RESET_SECRET="random-string"        # guards /reset-password emergency page (keep offline/safe)
 ```
 
 ## Dev Credentials (local only)
@@ -144,6 +145,9 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] `.gitignore` updated (excludes `*.db`, `.env*`, `public/uploads/`, generated Prisma client)
 - [x] Migrated from SQLite/better-sqlite3 to Neon PostgreSQL (`@prisma/adapter-neon`)
 - [x] Deployed to Vercel production (https://tomorrowlandlightandpowerco.vercel.app)
+- [x] DB-backed admin credentials (`AdminCredentials` table) — seeded from env vars on first login
+- [x] Emergency password reset at `/reset-password` (gated by `RESET_SECRET` env var, timing-safe)
+- [x] In-session password change at `/admin/change-password` (requires current password)
 - [x] Pushed to GitHub (https://github.com/tcyoder/Tomorrowland)
 
 ### Not Yet Built
