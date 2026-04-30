@@ -28,8 +28,8 @@ Personal blog site for writing short stories and dispatches set in the world of 
 
 ### Auth
 - `proxy.ts` (not `middleware.ts`) handles route protection in Next.js 16
-- Proxy uses `getToken` from `next-auth/jwt` — not `auth()` — because proxy runs in Edge runtime (no bcryptjs)
-- `auth()` from `lib/auth.ts` is used in Server Components and API routes only
+- Proxy uses `auth()` from `lib/auth.ts` directly — Next.js 16 proxy runs in Node.js runtime (not Edge), so bcryptjs and Prisma work fine here
+- `auth()` is used in proxy, Server Components, and API routes
 
 ### Client components
 - `PostEditor`, `PromptPanel`, `PromptBankManager`, `AdminDeletePost`, `AdminSignOut` are all `"use client"`
@@ -110,8 +110,8 @@ Change `ADMIN_PASSWORD_HASH` before deploying.
 
 ```bash
 pnpm dev                       # Start dev server
-pnpm prisma migrate dev        # Apply schema changes (uses Neon via .env.local)
-pnpm prisma generate           # Regenerate client after schema change
+pnpm prisma migrate dev        # Apply schema changes AND regenerates client (uses Neon via .env.local)
+pnpm prisma generate           # Regenerate client after schema change — MUST run after migrate dev
 pnpm prisma studio             # Browse/edit data in browser
 ```
 

@@ -1,24 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
 
-export default async function proxy(req: NextRequest) {
-  const isAdminRoute = req.nextUrl.pathname.startsWith("/admin");
-
-  if (isAdminRoute) {
-    const token = await getToken({
-      req,
-      secret: process.env.NEXTAUTH_SECRET,
-    });
-
-    if (!token) {
-      const loginUrl = new URL("/login", req.nextUrl.origin);
-      loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
-      return NextResponse.redirect(loginUrl);
-    }
+export default auth(function proxy(req) {
+  if (!req.auth) {
+    const loginUrl = new URL("/login", req.nextUrl.origin);
+    loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
   }
-
   return NextResponse.next();
-}
+});
 
 export const config = {
   matcher: ["/admin/:path*"],
