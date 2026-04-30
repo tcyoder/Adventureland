@@ -47,6 +47,13 @@ model PromptBank {
   weeklyPrompt WeeklyPrompt[]
 }
 
+model AdminCredentials {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  updatedAt    DateTime @updatedAt
+}
+
 enum PostType {
   PROMPTED
   FREE

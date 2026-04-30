@@ -28,6 +28,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link href="/admin/prompts" className="hover:text-[#faf6f0] transition-colors">
               Prompt Bank
             </Link>
+            <Link href="/admin/change-password" className="hover:text-[#faf6f0] transition-colors">
+              Password
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-4 text-xs">

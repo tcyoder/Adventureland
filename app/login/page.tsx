@@ -3,6 +3,7 @@
 import { useState, FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { Suspense } from "react";
 
 function LoginForm() {
@@ -109,9 +110,14 @@ function LoginForm() {
           </form>
         </div>
 
-        <p className="text-center text-[#faf6f0]/20 text-xs mt-6 tracking-widest">
-          AUTHORIZED PERSONNEL ONLY
-        </p>
+        <div className="text-center mt-6 space-y-2">
+          <p className="text-[#faf6f0]/20 text-xs tracking-widest">
+            AUTHORIZED PERSONNEL ONLY
+          </p>
+          <Link href="/reset-password" className="text-[#faf6f0]/25 hover:text-[#b87333]/60 text-xs tracking-widest uppercase transition-colors">
+            Forgot password?
+          </Link>
+        </div>
       </div>
     </div>
   );

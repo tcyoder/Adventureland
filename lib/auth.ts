@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { prisma } from "@/lib/db";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -16,21 +17,33 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (!username || !password) return null;
 
+        // Try DB first
+        const dbCreds = await prisma.adminCredentials.findUnique({
+          where: { username },
+        });
+
+        if (dbCreds) {
+          const isValid = await bcrypt.compare(password, dbCreds.passwordHash);
+          if (!isValid) return null;
+          return { id: "admin", name: username, email: "admin@tomorrowland.local" };
+        }
+
+        // Fall back to env vars (and seed DB on first successful login)
         const adminUsername = process.env.ADMIN_USERNAME;
         const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
 
         if (!adminUsername || !adminPasswordHash) return null;
-
         if (username !== adminUsername) return null;
 
         const isValid = await bcrypt.compare(password, adminPasswordHash);
         if (!isValid) return null;
 
-        return {
-          id: "admin",
-          name: adminUsername,
-          email: "admin@tomorrowland.local",
-        };
+        // Seed DB so future logins use DB
+        await prisma.adminCredentials.create({
+          data: { username, passwordHash: adminPasswordHash },
+        });
+
+        return { id: "admin", name: username, email: "admin@tomorrowland.local" };
       },
     }),
   ],
