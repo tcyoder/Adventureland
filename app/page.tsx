@@ -27,7 +27,7 @@ export default async function HomePage({
       <SiteHeader />
 
       {/* Hero stripe */}
-      <div className="border-y border-[#b87333]/30 bg-gradient-to-r from-[#0d1b2a] via-[#1a2f45] to-[#0d1b2a] py-8">
+      <div className="border-y border-[#b87333]/30 bg-gradient-to-r from-[#0d1b2a] via-[#1a2f45] to-[#0d1b2a] py-6 sm:py-8">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="deco-divider mb-4">
             <span className="text-xs tracking-[0.3em] uppercase text-[#b87333]">
@@ -41,7 +41,7 @@ export default async function HomePage({
         </div>
       </div>
 
-      <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-12">
+      <main className="flex-1 max-w-4xl mx-auto w-full px-4 py-8 sm:py-12">
         <PostFilters activeType={type} />
 
         {posts.length === 0 ? (

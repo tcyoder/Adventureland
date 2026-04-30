@@ -41,7 +41,7 @@ export default async function PostPage({ params }: Props) {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-12">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-8 sm:py-12">
         {/* Cover image */}
         {post.coverImage && (
           <div className="mb-8 rounded-lg overflow-hidden border border-[#b87333]/20">
@@ -64,7 +64,7 @@ export default async function PostPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="font-[family-name:var(--font-josefin)] text-4xl md:text-5xl font-bold tracking-wide text-[#faf6f0] mb-4 leading-tight">
+          <h1 className="font-[family-name:var(--font-josefin)] text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-[#faf6f0] mb-4 leading-tight">
             {post.title}
           </h1>
 
@@ -89,28 +89,28 @@ export default async function PostPage({ params }: Props) {
         />
 
         {/* Prev/Next navigation */}
-        <div className="mt-16 pt-8 border-t border-[#b87333]/20 grid grid-cols-2 gap-4">
+        <div className="mt-12 sm:mt-16 pt-8 border-t border-[#b87333]/20 flex flex-col sm:grid sm:grid-cols-2 gap-6 sm:gap-4">
           <div>
             {prev && (
               <Link
                 href={`/post/${prev.slug}`}
-                className="group flex flex-col gap-1 text-sm hover:text-[#b87333] transition-colors"
+                className="group flex flex-col gap-1 hover:text-[#b87333] transition-colors"
               >
                 <span className="text-[#faf6f0]/40 text-xs tracking-widest">← PREVIOUS</span>
-                <span className="text-[#faf6f0]/80 group-hover:text-[#b87333] line-clamp-2">
+                <span className="text-[#faf6f0]/80 group-hover:text-[#b87333] text-sm line-clamp-2">
                   {prev.title}
                 </span>
               </Link>
             )}
           </div>
-          <div className="text-right">
+          <div className="sm:text-right">
             {next && (
               <Link
                 href={`/post/${next.slug}`}
-                className="group flex flex-col gap-1 text-sm hover:text-[#b87333] transition-colors"
+                className="group flex flex-col gap-1 hover:text-[#b87333] transition-colors"
               >
                 <span className="text-[#faf6f0]/40 text-xs tracking-widest">NEXT →</span>
-                <span className="text-[#faf6f0]/80 group-hover:text-[#b87333] line-clamp-2">
+                <span className="text-[#faf6f0]/80 group-hover:text-[#b87333] text-sm line-clamp-2">
                   {next.title}
                 </span>
               </Link>

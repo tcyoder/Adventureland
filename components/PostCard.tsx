@@ -27,7 +27,7 @@ export default function PostCard({ post }: { post: PostWithPrompt }) {
           </div>
         )}
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="flex items-center gap-3 mb-3">
             <PostTypeBadge type={post.type as PostType} />
             {post.publishedAt && (
@@ -49,7 +49,7 @@ export default function PostCard({ post }: { post: PostWithPrompt }) {
             <p className="text-[#faf6f0]/60 text-sm leading-relaxed line-clamp-3">{excerpt}</p>
           )}
 
-          <div className="mt-4 flex items-center gap-1 text-[#b87333] text-xs tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="mt-4 flex items-center gap-1 text-[#b87333] text-xs tracking-widest md:opacity-0 md:group-hover:opacity-100 transition-opacity">
             <span>READ TRANSMISSION</span>
             <span>→</span>
           </div>

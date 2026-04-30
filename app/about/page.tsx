@@ -9,7 +9,7 @@ export default function AboutPage() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-12">
+      <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-8 sm:py-12">
         {/* Page header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
@@ -18,7 +18,7 @@ export default function AboutPage() {
             </span>
           </div>
 
-          <h1 className="font-[family-name:var(--font-josefin)] text-4xl md:text-5xl font-bold tracking-wide text-[#faf6f0] mb-4 leading-tight">
+          <h1 className="font-[family-name:var(--font-josefin)] text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-[#faf6f0] mb-4 leading-tight">
             Meet the Admin
           </h1>
 
