@@ -7,10 +7,12 @@ Personal blog site for writing short stories and dispatches set in the world of 
 ## Stack
 
 - **Next.js 16** App Router + TypeScript + Tailwind CSS v4
-- **Prisma 7** with `better-sqlite3` adapter — generated client at `app/generated/prisma/`
+- **Prisma 7** with Neon serverless adapter (`@prisma/adapter-neon`) — generated client at `app/generated/prisma/`
+- **Neon** PostgreSQL (production) via `DATABASE_URL` connection string
 - **Auth.js v5** (`next-auth@beta`) with credentials provider, single admin user
 - **Tiptap** rich text editor (client-side only, loaded via `next/dynamic`)
-- **Vercel** deployment with cron job
+- **Vercel** deployment with cron job (live at `https://tomorrowlandlightandpowerco.vercel.app`)
+- **pnpm** as package manager
 
 ## Key Architecture Notes
 
@@ -20,7 +22,9 @@ Personal blog site for writing short stories and dispatches set in the world of 
 - Client is generated to `app/generated/prisma/` (not `node_modules`)
 - **Client components must NOT import runtime code from `@/app/generated/prisma/client`** — use `import type` only
 - Enum values for client components come from `@/app/generated/prisma/enums`
-- Dev database: `./dev.db` (project root), configured via `DATABASE_URL=file:./dev.db`
+- Database adapter: `PrismaNeon` from `@prisma/adapter-neon` — uses `DATABASE_URL` (Neon connection string)
+- `prisma.config.ts` loads `.env.local` explicitly so migrations work locally
+- `prisma.config.ts` is excluded from `tsconfig.json` (it's a config file, not app code)
 
 ### Auth
 - `proxy.ts` (not `middleware.ts`) handles route protection in Next.js 16
@@ -69,7 +73,7 @@ components/
 
 lib/
   auth.ts                         # Auth.js config
-  db.ts                           # Prisma client (better-sqlite3 adapter)
+  db.ts                           # Prisma client (Neon serverless adapter)
   slugify.ts                      # Slug generation utility
 ```
 
@@ -86,7 +90,7 @@ Prompts are pre-written and stored in the `PromptBank` table. No AI API calls ar
 ## Environment Variables
 
 ```env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://..."     # Neon connection string (local dev + production)
 NEXTAUTH_SECRET="random-string"
 NEXTAUTH_URL="http://localhost:3000"
 ADMIN_USERNAME="admin"
@@ -104,10 +108,10 @@ Change `ADMIN_PASSWORD_HASH` before deploying.
 ## Common Commands
 
 ```bash
-npm run dev                    # Start dev server
-npx prisma migrate dev         # Apply schema changes
-npx prisma generate            # Regenerate client after schema change
-npx prisma studio              # Browse/edit data in browser
+pnpm dev                       # Start dev server
+pnpm prisma migrate dev        # Apply schema changes (uses Neon via .env.local)
+pnpm prisma generate           # Regenerate client after schema change
+pnpm prisma studio             # Browse/edit data in browser
 ```
 
 ## Repository
@@ -119,7 +123,7 @@ npx prisma studio              # Browse/edit data in browser
 ### Completed
 - [x] Next.js 16 project scaffold with TypeScript + Tailwind CSS v4
 - [x] Prisma 7 schema: `Post`, `WeeklyPrompt`, `PromptBank`
-- [x] SQLite database with better-sqlite3 adapter
+- [x] SQLite database with better-sqlite3 adapter (local dev, now replaced)
 - [x] Auth.js v5 credentials login (`/login`)
 - [x] Route protection via `proxy.ts` (Edge-compatible JWT check)
 - [x] Public post list (`/`) with All / Transmissions / Dispatches filters
@@ -138,9 +142,11 @@ npx prisma studio              # Browse/edit data in browser
 - [x] Art deco retro-futuristic design (copper/navy palette, Josefin Sans display font)
 - [x] Vercel cron config (`vercel.json`) — Mondays 1PM UTC
 - [x] `.gitignore` updated (excludes `*.db`, `.env*`, `public/uploads/`, generated Prisma client)
+- [x] Migrated from SQLite/better-sqlite3 to Neon PostgreSQL (`@prisma/adapter-neon`)
+- [x] Deployed to Vercel production (https://tomorrowlandlightandpowerco.vercel.app)
 - [x] Pushed to GitHub (https://github.com/tcyoder/Tomorrowland)
 
 ### Not Yet Built
-- [ ] Deploy to Vercel (needs production DB — swap `better-sqlite3` for Neon/Postgres adapter)
+- [ ] Custom domain
 - [ ] Image uploads in the Tiptap editor body (currently only cover image upload works)
 - [ ] Email notification when weekly prompt is assigned (optional)

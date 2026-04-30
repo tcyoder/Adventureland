@@ -1,12 +1,8 @@
 import { PrismaClient } from "@/app/generated/prisma/client";
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import path from "path";
+import { PrismaNeon } from "@prisma/adapter-neon";
 
 function createPrismaClient() {
-  const dbUrl = process.env.DATABASE_URL ?? "file:./prisma/dev.db";
-  const dbPath = dbUrl.replace(/^file:/, "");
-  const absolutePath = path.isAbsolute(dbPath) ? dbPath : path.join(process.cwd(), dbPath);
-  const adapter = new PrismaBetterSqlite3({ url: absolutePath });
+  const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return new PrismaClient({ adapter } as any);
 }
