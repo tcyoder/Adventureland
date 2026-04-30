@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tomorrowland Light & Power Co.
 
-## Getting Started
+A personal blog set in the world of *New Tomorrowland 1994* — retro-futuristic spaceport city, headquarters of the League of Planets.
 
-First, run the development server:
+## Features
+
+- **Prompted Story Posts** — Weekly AI-generated writing prompts set in New Tomorrowland lore, powered by Claude
+- **Free-Form Blog Posts** — Write and publish on any topic
+- **Rich Text Editor** — Full Tiptap editor with headings, lists, images, links, code blocks, blockquotes
+- **Single-user auth** — Secure login with bcrypt-hashed credentials (no registration)
+- **Auto-save** — Drafts auto-save every 30 seconds while editing
+- **Retro-futuristic design** — Art deco aesthetic, copper/amber palette, Josefin Sans display font
+
+## Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure environment variables
+
+Edit `.env.local` with your values:
+
+```env
+DATABASE_URL="file:./dev.db"
+NEXTAUTH_SECRET="your-random-secret-here"
+NEXTAUTH_URL="http://localhost:3000"
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD_HASH="<bcrypt hash — see below>"
+ANTHROPIC_API_KEY="sk-ant-..."
+CRON_SECRET="your-random-cron-secret"
+```
+
+### 3. Generate your admin password hash
+
+```bash
+node -e "const bcrypt=require('bcryptjs');bcrypt.hash('yourpassword',12).then(console.log)"
+```
+
+Copy the output hash into `ADMIN_PASSWORD_HASH` in `.env.local`.
+
+**Default credentials (development only):**
+- Username: `admin`
+- Password: `tomorrowland1994`
+
+Change these before deploying to production.
+
+### 4. Run database migrations
+
+```bash
+npx prisma migrate dev
+```
+
+### 5. Start development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Public blog: [http://localhost:3000](http://localhost:3000)
+- Admin login: [http://localhost:3000/login](http://localhost:3000/login)
+- Admin dashboard: [http://localhost:3000/admin](http://localhost:3000/admin)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment on Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Push to GitHub
+2. Import project in Vercel dashboard
+3. Add all environment variables from `.env.local`
+4. Set `DATABASE_URL` to a production Postgres URL (e.g., Neon via Vercel Marketplace)
+5. Update `lib/db.ts` to use `@prisma/adapter-neon` for production
+6. Deploy
 
-## Learn More
+### Weekly Prompt Cron Job
 
-To learn more about Next.js, take a look at the following resources:
+`vercel.json` configures a cron job every Monday at 1:00 PM UTC:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```json
+{ "crons": [{ "path": "/api/cron/generate-prompt", "schedule": "0 13 * * 1" }] }
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The endpoint is secured with the `x-cron-secret` header matching `CRON_SECRET`.
 
-## Deploy on Vercel
+To manually trigger: use the "Generate Prompt" button in the admin dashboard.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js 16** (App Router, TypeScript)
+- **Tailwind CSS v4**
+- **Tiptap** rich text editor
+- **Prisma 7** with better-sqlite3 adapter
+- **Auth.js v5** with credentials provider
+- **Anthropic Claude** for weekly prompt generation
+- **Vercel** deployment with cron jobs
