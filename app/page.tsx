@@ -35,7 +35,7 @@ export default async function HomePage({
             </span>
           </div>
           <p className="text-[#faf6f0]/60 text-sm max-w-xl mx-auto">
-            Stories and dispatches from New Tomorrowland 1994 — headquarters of the League of
+            Stories and dispatches from Tomorrowland — headquarters of the League of
             Planets, where the future never quite arrived.
           </p>
         </div>
