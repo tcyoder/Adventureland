@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     }
 
     const username = session.user?.name ?? "";
-    const dbCreds = await prisma.adminCredentials.findUnique({ where: { username } });
+    const dbCreds = await db.adminCredentials.findUnique({ where: { username } });
 
     let currentHash: string;
     if (dbCreds) {
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 
     const passwordHash = await bcrypt.hash(newPassword, 12);
 
-    await prisma.adminCredentials.upsert({
+    await db.adminCredentials.upsert({
       where: { username },
       update: { passwordHash },
       create: { username, passwordHash },

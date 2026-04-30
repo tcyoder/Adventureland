@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/db";
+import { db } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     const passwordHash = await bcrypt.hash(newPassword, 12);
     const username = process.env.ADMIN_USERNAME ?? "admin";
 
-    await prisma.adminCredentials.upsert({
+    await db.adminCredentials.upsert({
       where: { username },
       update: { passwordHash },
       create: { username, passwordHash },
