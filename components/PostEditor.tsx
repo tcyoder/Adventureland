@@ -40,7 +40,20 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
   const [coverImage, setCoverImage] = useState(post?.coverImage ?? "");
-  const [tags, setTags] = useState<string[]>(post?.tags ?? []);
+  const DEFAULT_TAGS = [
+    "walt-disney-world",
+    "tomorrowland",
+    "tomorrowland-1994",
+    "magic-kingdom",
+    "blog",
+    "retro-future",
+    "league-of-planets",
+    "light-and-power-company",
+    "tomorrowland-light-and-power-co",
+    "creative-writing",
+    "citizens-of-tomorrowland",
+  ];
+  const [tags, setTags] = useState<string[]>(post?.tags.length ? post.tags : DEFAULT_TAGS);
   const [tagInput, setTagInput] = useState("");
   const [type] = useState<PostType>((post?.type ?? defaultType) || PostType.FREE);
   const [saving, setSaving] = useState(false);
