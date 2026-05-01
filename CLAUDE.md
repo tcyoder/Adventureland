@@ -67,7 +67,7 @@ app/
     prompt-bank/route.ts          # GET / POST (add) / DELETE
     prompts/route.ts              # GET current week's prompt
     cron/generate-prompt/route.ts # GET (Vercel cron) / POST (admin manual trigger)
-    upload/route.ts               # Image upload → public/uploads/
+    upload/route.ts               # Image upload → Vercel Blob (returns CDN URL)
 
 components/
   SiteHeader.tsx                  # Public site header
@@ -108,6 +108,7 @@ ADMIN_USERNAME="admin"
 ADMIN_PASSWORD_HASH="bcrypt-hash"   # node -e "require('bcryptjs').hash('pw',12).then(console.log)"
 CRON_SECRET="random-string"         # sent as x-cron-secret header by Vercel cron
 RESET_SECRET="random-string"        # guards /reset-password emergency page (keep offline/safe)
+BLOB_READ_WRITE_TOKEN="..."         # Vercel Blob storage token (auto-provisioned via Vercel dashboard)
 ```
 
 ## Dev Credentials (local only)
@@ -146,7 +147,7 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] Post editor with full Tiptap rich text (H1–H3, bold/italic/underline/strike, lists, blockquote, code, links, images, HR)
 - [x] Auto-slug generation from title
 - [x] Auto-save every 30 seconds while editing
-- [x] Cover image upload + URL input
+- [x] Cover image upload via Vercel Blob (upload-only, no URL input)
 - [x] Save as Draft / Publish / Unpublish / Delete actions
 - [x] Prompt Bank: add/view/remove pre-written prompts
 - [x] Cron endpoint draws from prompt bank (no AI API needed)
@@ -154,6 +155,7 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] Art deco retro-futuristic design (copper/navy palette, Josefin Sans display font)
 - [x] Vercel cron config (`vercel.json`) — Mondays 1PM UTC
 - [x] `.gitignore` updated (excludes `*.db`, `.env*`, `public/uploads/`, generated Prisma client)
+- [x] Image uploads in Tiptap editor body via "Upload Img" toolbar button → Vercel Blob
 - [x] Migrated from SQLite/better-sqlite3 to Neon PostgreSQL (`@prisma/adapter-neon`)
 - [x] Deployed to Vercel production (https://tomorrowlandlightandpowerco.vercel.app)
 - [x] DB-backed admin credentials (`AdminCredentials` table) — seeded from env vars on first login
@@ -167,5 +169,4 @@ pnpm prisma studio             # Browse/edit data in browser
 
 ### Not Yet Built
 - [ ] Custom domain
-- [ ] Image uploads in the Tiptap editor body (currently only cover image upload works)
 - [ ] Email notification when weekly prompt is assigned (optional)

@@ -6,7 +6,7 @@ import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef, useState } from "react";
 
 type Props = {
   content: string;
@@ -15,6 +15,10 @@ type Props = {
 };
 
 export default function RichTextEditor({ content, onChange, placeholder }: Props) {
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -57,9 +61,27 @@ export default function RichTextEditor({ content, onChange, placeholder }: Props
     editor?.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   }, [editor]);
 
-  const addImage = useCallback(() => {
-    const url = window.prompt("Image URL");
-    if (url) editor?.chain().focus().setImage({ src: url }).run();
+  const uploadImage = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+    setUploading(true);
+    setUploadError("");
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.url) {
+        editor.chain().focus().setImage({ src: data.url }).run();
+      } else {
+        setUploadError(data.error || "Upload failed.");
+      }
+    } catch {
+      setUploadError("Upload failed. Please try again.");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    }
   }, [editor]);
 
   if (!editor) return null;
@@ -103,9 +125,32 @@ export default function RichTextEditor({ content, onChange, placeholder }: Props
         {btn("```", () => editor.chain().focus().toggleCodeBlock().run(), editor.isActive("codeBlock"))}
         <span className="w-px mx-1 bg-[#b87333]/20 self-stretch" />
         {btn("Link", setLink, editor.isActive("link"))}
-        {btn("Image", addImage)}
+        <label
+          className={`px-2.5 py-1.5 text-xs rounded transition-colors cursor-pointer ${
+            uploading
+              ? "text-[#faf6f0]/30 cursor-not-allowed"
+              : "text-[#faf6f0]/60 hover:text-[#faf6f0] hover:bg-[#0d1b2a]/50"
+          }`}
+          title="Upload image file"
+        >
+          {uploading ? "Uploading…" : "Upload Img"}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            disabled={uploading}
+            onChange={uploadImage}
+          />
+        </label>
         {btn("—", () => editor.chain().focus().setHorizontalRule().run())}
       </div>
+
+      {uploadError && (
+        <div className="px-4 py-2 bg-red-400/10 border-b border-red-400/20 text-red-400 text-xs">
+          {uploadError}
+        </div>
+      )}
 
       {/* Editor content */}
       <div className="p-5 text-[#faf6f0]/90">

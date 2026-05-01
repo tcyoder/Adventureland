@@ -126,12 +126,18 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-    const res = await fetch("/api/upload", { method: "POST", body: formData });
-    const data = await res.json();
-    if (data.url) setCoverImage(data.url);
-    setUploading(false);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const data = await res.json();
+      if (data.url) setCoverImage(data.url);
+      else setError(data.error || "Upload failed.");
+    } catch {
+      setError("Upload failed. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function handleUnpublish() {
@@ -286,13 +292,6 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
             Cover Image <span className="text-[#faf6f0]/30 normal-case tracking-normal">(optional)</span>
           </label>
           <div className="flex gap-2">
-            <input
-              type="text"
-              value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
-              placeholder="https://… or upload below"
-              className="flex-1 bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-2.5 text-[#faf6f0]/80 placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] text-sm transition-colors"
-            />
             <label className="cursor-pointer bg-[#1a2f45] border border-[#b87333]/30 hover:border-[#b87333] rounded px-4 py-2.5 text-xs tracking-widest uppercase text-[#faf6f0]/60 hover:text-[#faf6f0] transition-colors">
               {uploading ? "Uploading…" : "Upload"}
               <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
