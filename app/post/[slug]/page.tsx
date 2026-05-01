@@ -138,21 +138,6 @@ export default async function PostPage({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
-        {/* Tags */}
-        {post.tags.length > 0 && (
-          <div className="mt-10 pt-6 border-t border-[#b87333]/10 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <Link
-                key={tag}
-                href={`/tag/${tag}`}
-                className="px-3 py-1 bg-[#1a2f45] border border-[#b87333]/20 rounded text-xs text-[#b87333]/70 hover:text-[#b87333] hover:border-[#b87333]/50 tracking-wide transition-colors"
-              >
-                #{tag}
-              </Link>
-            ))}
-          </div>
-        )}
-
         {/* Share */}
         <div className="mt-6 flex items-center gap-4">
           <span className="text-[#faf6f0]/30 text-xs tracking-widest uppercase">Share</span>
