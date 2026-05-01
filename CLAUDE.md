@@ -38,6 +38,7 @@ Personal blog site for writing short stories and dispatches set in the world of 
 - `/admin/about` creates the post if it doesn't exist, then redirects to the standard post editor
 - Publishing the post also adds it to the main Dispatch feed on the homepage
 - Do not change the slug `meet-the-admin` — `/about` is hardcoded to look it up by that slug
+- Official portrait of N. Litenment (Administrator) is at `public/images/admin-portrait.png` — hardcoded into the `/about` page template, not the post content, so it won't appear in the Dispatch feed
 
 ### Client components
 - `PostEditor`, `PromptPanel`, `PromptBankManager`, `AdminDeletePost`, `AdminSignOut` are all `"use client"`
@@ -162,6 +163,7 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] Public header nav: "Meet the Admin" link replacing Stories/Posts filters
 - [x] `/about` page — DB-backed, editable from admin dashboard, doubles as first Dispatch when published
 - [x] Mobile optimizations: responsive header, touch targets, always-visible post CTAs, responsive typography
+- [x] Official admin portrait (`public/images/admin-portrait.png`) on `/about` page — N. Litenment, Administrator; not included in Dispatch post content
 
 ### Not Yet Built
 - [ ] Custom domain
