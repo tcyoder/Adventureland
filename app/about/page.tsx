@@ -30,6 +30,24 @@ export default async function AboutPage() {
           <div className="h-px bg-gradient-to-r from-[#b87333] via-[#d4945a] to-transparent" />
         </div>
 
+        {/* Official portrait */}
+        <div className="flex justify-center mb-10">
+          <figure className="w-64 sm:w-72">
+            <div className="border-2 border-[#b87333]/50 rounded-sm p-1 bg-[#0a1520]">
+              <div className="border border-[#b87333]/20 rounded-sm overflow-hidden">
+                <img
+                  src="/images/admin-portrait.png"
+                  alt="Official portrait of N. Litenment, Administrator — Tomorrowland Light & Power Co."
+                  className="w-full block"
+                />
+              </div>
+            </div>
+            <figcaption className="text-center mt-3 text-[#b87333]/70 text-xs tracking-[0.2em] uppercase">
+              Official Portrait · On File
+            </figcaption>
+          </figure>
+        </div>
+
         {/* Body */}
         {post?.content ? (
           <article
