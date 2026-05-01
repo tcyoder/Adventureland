@@ -40,6 +40,8 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
   const [coverImage, setCoverImage] = useState(post?.coverImage ?? "");
+  const [tags, setTags] = useState<string[]>(post?.tags ?? []);
+  const [tagInput, setTagInput] = useState("");
   const [type] = useState<PostType>((post?.type ?? defaultType) || PostType.FREE);
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -70,6 +72,7 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
         excerpt,
         content,
         coverImage,
+        tags,
         type,
         status: status ?? post?.status ?? PostStatus.DRAFT,
         promptId: promptId ?? post?.promptId ?? null,
@@ -107,7 +110,7 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
         setSaving(false);
       }
     },
-    [title, slug, excerpt, content, coverImage, type, promptId, post, isNew, router]
+    [title, slug, excerpt, content, coverImage, tags, type, promptId, post, isNew, router]
   );
 
   // Auto-save every 30s when content changes
@@ -120,7 +123,17 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
     return () => {
       if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     };
-  }, [title, slug, excerpt, content, coverImage, savePost, isNew]);
+  }, [title, slug, excerpt, content, coverImage, tags, savePost, isNew]);
+
+  function addTag(raw: string) {
+    const tag = raw.trim().toLowerCase().replace(/\s+/g, "-");
+    if (tag && !tags.includes(tag)) setTags((prev) => [...prev, tag]);
+    setTagInput("");
+  }
+
+  function removeTag(tag: string) {
+    setTags((prev) => prev.filter((t) => t !== tag));
+  }
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -283,6 +296,44 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
             rows={2}
             placeholder="Short summary shown in post lists…"
             className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-2.5 text-[#faf6f0]/80 placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] text-sm resize-none transition-colors"
+          />
+        </div>
+
+        {/* Tags */}
+        <div>
+          <label className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2">
+            Tags <span className="text-[#faf6f0]/30 normal-case tracking-normal">(optional — press Enter or comma to add)</span>
+          </label>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#1a2f45] border border-[#b87333]/30 rounded text-xs text-[#b87333] tracking-wide"
+              >
+                #{tag}
+                <button
+                  type="button"
+                  onClick={() => removeTag(tag)}
+                  className="text-[#faf6f0]/30 hover:text-red-400 transition-colors leading-none"
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+          <input
+            type="text"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === ",") {
+                e.preventDefault();
+                addTag(tagInput);
+              }
+            }}
+            onBlur={() => { if (tagInput.trim()) addTag(tagInput); }}
+            placeholder="walt-disney-world, fan-fiction, sci-fi…"
+            className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-2.5 text-[#faf6f0]/80 placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] text-sm transition-colors"
           />
         </div>
 

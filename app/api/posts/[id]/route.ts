@@ -23,7 +23,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 
   const { id } = await params;
   const body = await request.json();
-  const { title, content, excerpt, status, coverImage, slug: customSlug } = body;
+  const { title, content, excerpt, status, coverImage, tags, slug: customSlug } = body;
 
   const existing = await db.post.findUnique({ where: { id } });
   if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -51,6 +51,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       ...(excerpt !== undefined && { excerpt }),
       ...(status && { status: status as PostStatus }),
       ...(coverImage !== undefined && { coverImage }),
+      ...(tags !== undefined && { tags: Array.isArray(tags) ? tags : [] }),
       publishedAt:
         nowPublishing && !wasPublished
           ? new Date()

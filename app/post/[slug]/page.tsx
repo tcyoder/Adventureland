@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: post.title,
     description,
+    keywords: post.tags.length > 0 ? post.tags.join(", ") : undefined,
     openGraph: {
       type: "article",
       title: post.title,
@@ -28,6 +29,7 @@ export async function generateMetadata({ params }: Props) {
       publishedTime: post.publishedAt?.toISOString(),
       modifiedTime: post.updatedAt?.toISOString(),
       images,
+      tags: post.tags.length > 0 ? post.tags : undefined,
     },
     twitter: {
       card: post.coverImage ? "summary_large_image" : "summary",
@@ -59,8 +61,34 @@ export default async function PostPage({ params }: Props) {
   const prev = idx > 0 ? allPosts[idx - 1] : null;
   const next = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
 
+  const SITE_URL = "https://tomorrowlandlightandpowerco.vercel.app";
+  const postUrl = `${SITE_URL}/post/${post.slug}`;
+  const description = post.excerpt || "A story from Tomorrowland Light & Power Co.";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description,
+    url: postUrl,
+    datePublished: post.publishedAt?.toISOString(),
+    dateModified: post.updatedAt?.toISOString(),
+    author: { "@type": "Person", "name": "N. Litenment" },
+    publisher: {
+      "@type": "Organization",
+      name: "Tomorrowland Light & Power Co.",
+      url: SITE_URL,
+    },
+    ...(post.coverImage && { image: post.coverImage }),
+    ...(post.tags.length > 0 && { keywords: post.tags.join(", ") }),
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SiteHeader />
 
       <main className="flex-1 max-w-3xl mx-auto w-full px-4 py-8 sm:py-12">
@@ -109,6 +137,42 @@ export default async function PostPage({ params }: Props) {
           className="tiptap-content text-[#faf6f0]/90 leading-relaxed"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+
+        {/* Tags */}
+        {post.tags.length > 0 && (
+          <div className="mt-10 pt-6 border-t border-[#b87333]/10 flex flex-wrap gap-2">
+            {post.tags.map((tag) => (
+              <Link
+                key={tag}
+                href={`/tag/${tag}`}
+                className="px-3 py-1 bg-[#1a2f45] border border-[#b87333]/20 rounded text-xs text-[#b87333]/70 hover:text-[#b87333] hover:border-[#b87333]/50 tracking-wide transition-colors"
+              >
+                #{tag}
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* Share */}
+        <div className="mt-6 flex items-center gap-4">
+          <span className="text-[#faf6f0]/30 text-xs tracking-widest uppercase">Share</span>
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(postUrl)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-[#faf6f0]/40 hover:text-[#faf6f0] tracking-widest uppercase transition-colors"
+          >
+            Twitter / X
+          </a>
+          <a
+            href={`https://reddit.com/submit?url=${encodeURIComponent(postUrl)}&title=${encodeURIComponent(post.title)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-[#faf6f0]/40 hover:text-[#faf6f0] tracking-widest uppercase transition-colors"
+          >
+            Reddit
+          </a>
+        </div>
 
         {/* Prev/Next navigation */}
         <div className="mt-12 sm:mt-16 pt-8 border-t border-[#b87333]/20 flex flex-col sm:grid sm:grid-cols-2 gap-6 sm:gap-4">

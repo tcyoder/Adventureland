@@ -49,6 +49,19 @@ export default function PostCard({ post }: { post: PostWithPrompt }) {
             <p className="text-[#faf6f0]/60 text-sm leading-relaxed line-clamp-3">{excerpt}</p>
           )}
 
+          {post.tags.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-2 py-0.5 bg-[#0d1b2a] border border-[#b87333]/20 rounded text-[10px] text-[#b87333]/60 tracking-wide"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+
           <div className="mt-4 flex items-center gap-1 text-[#b87333] text-xs tracking-widest md:opacity-0 md:group-hover:opacity-100 transition-opacity">
             <span>READ TRANSMISSION</span>
             <span>→</span>

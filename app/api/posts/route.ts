@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { title, content, excerpt, type, status, promptId, coverImage, slug: customSlug } = body;
+  const { title, content, excerpt, type, status, promptId, coverImage, tags, slug: customSlug } = body;
 
   if (!title || !content || !type) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -64,6 +64,7 @@ export async function POST(request: NextRequest) {
       status: (status as PostStatus) || PostStatus.DRAFT,
       promptId: promptId || null,
       coverImage: coverImage || null,
+      tags: Array.isArray(tags) ? tags : [],
       publishedAt: status === PostStatus.PUBLISHED ? new Date() : null,
     },
     include: { prompt: true },
