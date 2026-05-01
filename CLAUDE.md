@@ -30,6 +30,14 @@ Personal blog site for writing short stories and dispatches set in the world of 
 - `proxy.ts` (not `middleware.ts`) handles route protection in Next.js 16
 - Proxy uses `auth()` from `lib/auth.ts` directly — Next.js 16 proxy runs in Node.js runtime (not Edge), so bcryptjs and Prisma work fine here
 - `auth()` is used in proxy, Server Components, and API routes
+- **After adding the `AdminCredentials` migration, always run `pnpm prisma generate`** — stale client causes silent runtime errors on login
+
+### Meet the Admin page
+- Lives at `/about` — always renders content regardless of post status (draft or published)
+- Content is stored as a regular `Post` with slug `meet-the-admin`, type `FREE`
+- `/admin/about` creates the post if it doesn't exist, then redirects to the standard post editor
+- Publishing the post also adds it to the main Dispatch feed on the homepage
+- Do not change the slug `meet-the-admin` — `/about` is hardcoded to look it up by that slug
 
 ### Client components
 - `PostEditor`, `PromptPanel`, `PromptBankManager`, `AdminDeletePost`, `AdminSignOut` are all `"use client"`
@@ -40,11 +48,13 @@ Personal blog site for writing short stories and dispatches set in the world of 
 ```
 app/
   page.tsx                        # Public post list
+  about/page.tsx                  # Meet the Admin page (reads from meet-the-admin post)
   post/[slug]/page.tsx            # Public single post
   login/page.tsx                  # Login form
   admin/
     layout.tsx                    # Admin shell (auth check + nav)
-    page.tsx                      # Dashboard (stats, this week's prompt, recent drafts)
+    page.tsx                      # Dashboard (stats, weekly prompt, recent drafts, about status)
+    about/page.tsx                # Finds/creates meet-the-admin post, redirects to editor
     posts/page.tsx                # All posts table with filters
     post/new/page.tsx             # New post editor
     post/[id]/edit/page.tsx       # Edit post
@@ -126,7 +136,7 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] Prisma 7 schema: `Post`, `WeeklyPrompt`, `PromptBank`
 - [x] SQLite database with better-sqlite3 adapter (local dev, now replaced)
 - [x] Auth.js v5 credentials login (`/login`)
-- [x] Route protection via `proxy.ts` (Edge-compatible JWT check)
+- [x] Route protection via `proxy.ts` (Node.js runtime, uses `auth()` directly)
 - [x] Public post list (`/`) with All / Transmissions / Dispatches filters
 - [x] Public single post view (`/post/[slug]`) with prompt callout + prev/next nav
 - [x] Admin layout with nav (Dashboard, All Posts, New Post, Prompt Bank)
@@ -149,6 +159,9 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] Emergency password reset at `/reset-password` (gated by `RESET_SECRET` env var, timing-safe)
 - [x] In-session password change at `/admin/change-password` (requires current password)
 - [x] Pushed to GitHub (https://github.com/tcyoder/Tomorrowland)
+- [x] Public header nav: "Meet the Admin" link replacing Stories/Posts filters
+- [x] `/about` page — DB-backed, editable from admin dashboard, doubles as first Dispatch when published
+- [x] Mobile optimizations: responsive header, touch targets, always-visible post CTAs, responsive typography
 
 ### Not Yet Built
 - [ ] Custom domain
