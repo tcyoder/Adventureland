@@ -13,7 +13,29 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const post = await db.post.findUnique({ where: { slug } });
   if (!post) return { title: "Not Found" };
-  return { title: `${post.title} | Tomorrowland Light & Power Co.` };
+
+  const description = post.excerpt || "A story from Tomorrowland Light & Power Co.";
+  const images = post.coverImage ? [{ url: post.coverImage, alt: post.title }] : [];
+
+  return {
+    title: post.title,
+    description,
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description,
+      url: `/post/${post.slug}`,
+      publishedTime: post.publishedAt?.toISOString(),
+      modifiedTime: post.updatedAt?.toISOString(),
+      images,
+    },
+    twitter: {
+      card: post.coverImage ? "summary_large_image" : "summary",
+      title: post.title,
+      description,
+      images: post.coverImage ? [post.coverImage] : [],
+    },
+  };
 }
 
 export default async function PostPage({ params }: Props) {

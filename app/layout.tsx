@@ -15,9 +15,31 @@ const josefinSans = Josefin_Sans({
   display: "swap",
 });
 
+const SITE_URL = "https://tomorrowlandlightandpowerco.vercel.app";
+const SITE_NAME = "Tomorrowland Light & Power Co.";
+const SITE_DESCRIPTION =
+  "Stories and dispatches from New Tomorrowland 1994 — headquarters of the League of Planets, where the future never quite arrived.";
+
 export const metadata: Metadata = {
-  title: "Tomorrowland Light & Power Co.",
-  description: "A personal blog set in the world of New Tomorrowland 1994",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
@@ -27,6 +49,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${dmSans.variable} ${josefinSans.variable}`}>
+      <head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Tomorrowland Light & Power Co."
+          href="/feed.xml"
+        />
+      </head>
       <body className="min-h-screen bg-[#0d1b2a] text-[#faf6f0] font-[family-name:var(--font-dm-sans)] antialiased">
         <SessionProvider>{children}</SessionProvider>
       </body>

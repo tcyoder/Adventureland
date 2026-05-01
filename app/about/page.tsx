@@ -4,7 +4,20 @@ import { db } from "@/lib/db";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Meet the Admin — Tomorrowland Light & Power Co.",
+  title: "Meet the Admin",
+  description: "The official record of N. Litenment, Administrator of Tomorrowland Light & Power Co.",
+  openGraph: {
+    title: "Meet the Admin",
+    description: "The official record of N. Litenment, Administrator of Tomorrowland Light & Power Co.",
+    url: "/about",
+    images: [{ url: "/images/admin-portrait.png", alt: "Official portrait of N. Litenment, Administrator" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Meet the Admin",
+    description: "The official record of N. Litenment, Administrator of Tomorrowland Light & Power Co.",
+    images: ["/images/admin-portrait.png"],
+  },
 };
 
 export default async function AboutPage() {
