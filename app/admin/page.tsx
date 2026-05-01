@@ -17,7 +17,7 @@ function getWeekStart(date: Date): Date {
 export default async function AdminDashboard() {
   const weekOf = getWeekStart(new Date());
 
-  const [totalPosts, draftPosts, publishedPosts, recentDrafts, weeklyPrompt, unusedCount] = await Promise.all([
+  const [totalPosts, draftPosts, publishedPosts, recentDrafts, weeklyPrompt, unusedCount, aboutPost] = await Promise.all([
     db.post.count(),
     db.post.count({ where: { status: PostStatus.DRAFT } }),
     db.post.count({ where: { status: PostStatus.PUBLISHED } }),
@@ -31,6 +31,7 @@ export default async function AdminDashboard() {
       include: { posts: { select: { id: true, title: true, slug: true, status: true } } },
     }),
     db.promptBank.count({ where: { usedAt: null } }),
+    db.post.findUnique({ where: { slug: "meet-the-admin" }, select: { status: true, updatedAt: true } }),
   ]);
 
   return (
@@ -95,6 +96,37 @@ export default async function AdminDashboard() {
             </ul>
           )}
         </div>
+      </div>
+
+      {/* Meet the Admin */}
+      <div className="mt-6 bg-[#1a2f45] border border-[#b87333]/20 rounded-lg p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xs tracking-[0.2em] uppercase text-[#b87333] mb-1 font-semibold">
+            Meet the Admin
+          </h2>
+          <p className="text-[#faf6f0]/50 text-sm">
+            Introduction page at{" "}
+            <Link href="/about" target="_blank" className="text-[#faf6f0]/70 hover:text-[#b87333] transition-colors underline underline-offset-2">
+              /about
+            </Link>
+            {" · "}
+            {aboutPost ? (
+              aboutPost.status === PostStatus.PUBLISHED ? (
+                <span className="text-[#2dd4bf]">Published as Dispatch</span>
+              ) : (
+                <span className="text-[#faf6f0]/40">Draft — not yet in feed</span>
+              )
+            ) : (
+              <span className="text-[#faf6f0]/40">Not yet created</span>
+            )}
+          </p>
+        </div>
+        <Link
+          href="/admin/about"
+          className="shrink-0 border border-[#b87333]/50 hover:border-[#b87333] text-[#b87333] hover:text-[#d4945a] px-4 py-2 rounded text-xs tracking-widest uppercase transition-colors"
+        >
+          Edit Introduction
+        </Link>
       </div>
     </div>
   );

@@ -1,10 +1,15 @@
 import SiteHeader from "@/components/SiteHeader";
+import { db } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Meet the Admin — Tomorrowland Light & Power Co.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const post = await db.post.findUnique({ where: { slug: "meet-the-admin" } });
+
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
@@ -25,10 +30,17 @@ export default function AboutPage() {
           <div className="h-px bg-gradient-to-r from-[#b87333] via-[#d4945a] to-transparent" />
         </div>
 
-        {/* Body — fill in your introduction below */}
-        <article className="tiptap-content text-[#faf6f0]/90 leading-relaxed">
-          <p>Write your introduction here.</p>
-        </article>
+        {/* Body */}
+        {post?.content ? (
+          <article
+            className="tiptap-content text-[#faf6f0]/90 leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+        ) : (
+          <p className="text-[#faf6f0]/40 italic">
+            No introduction written yet. Visit the admin dashboard to add one.
+          </p>
+        )}
       </main>
 
       <footer className="border-t border-[#b87333]/20 py-6 text-center text-[#faf6f0]/30 text-xs tracking-widest">
