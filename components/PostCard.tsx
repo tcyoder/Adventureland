@@ -50,7 +50,7 @@ export default function PostCard({ post }: { post: PostWithPrompt }) {
           )}
 
           <div className="mt-4 flex items-center gap-1 text-[#b87333] text-xs tracking-widest md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-            <span>READ TRANSMISSION</span>
+            <span>{post.type === "FREE" ? "READ DISPATCH" : "READ TRANSMISSION"}</span>
             <span>→</span>
           </div>
         </div>

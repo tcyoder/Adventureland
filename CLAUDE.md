@@ -175,6 +175,7 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] JSON-LD `BlogPosting` schema on every post page
 - [x] Twitter/X and Reddit share links on every post page
 - [x] `/tag/[tag]` pages exist (linked from sitemap) but tags not shown in public UI
+- [x] Post card CTA on homepage is type-aware: "Read Dispatch →" for FREE posts, "Read Transmission →" for PROMPTED posts
 
 ### Not Yet Built
 - [ ] Custom domain (~$10/yr via Cloudflare Registrar recommended)
