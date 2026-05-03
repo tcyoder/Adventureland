@@ -15,7 +15,7 @@ const josefinSans = Josefin_Sans({
   display: "swap",
 });
 
-const SITE_URL = "https://tomorrowlandlightandpowerco.vercel.app";
+const SITE_URL = "https://tomorrowlandlightandpower.co";
 const SITE_NAME = "Tomorrowland Light & Power Co.";
 const SITE_DESCRIPTION =
   "Stories and dispatches from New Tomorrowland 1994 — headquarters of the League of Planets, where the future never quite arrived.";

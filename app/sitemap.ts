@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
 import { PostStatus } from "@/app/generated/prisma/client";
 
-const SITE_URL = "https://tomorrowlandlightandpowerco.vercel.app";
+const SITE_URL = "https://tomorrowlandlightandpower.co";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await db.post.findMany({
