@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { db } from "@/lib/db";
 import { PostStatus } from "@/app/generated/prisma/client";
 import PostCard from "@/components/PostCard";
@@ -20,7 +21,10 @@ export default async function HomePage({
     where,
     include: { prompt: true },
     orderBy: { publishedAt: "desc" },
+    take: 5,
   });
+
+  const viewMoreHref = type ? `/archive?type=${type}` : "/archive";
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -50,11 +54,21 @@ export default async function HomePage({
             <p className="text-lg">No transmissions yet.</p>
           </div>
         ) : (
-          <div className="grid gap-6">
-            {posts.map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-6">
+              {posts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+            <div className="mt-10 text-center">
+              <Link
+                href={viewMoreHref}
+                className="inline-block px-8 py-3 border border-[#b87333]/40 text-[#b87333] text-xs tracking-[0.25em] uppercase hover:bg-[#b87333]/10 hover:border-[#b87333] transition-all"
+              >
+                View More →
+              </Link>
+            </div>
+          </>
         )}
       </main>
 
