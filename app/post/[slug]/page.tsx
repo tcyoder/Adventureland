@@ -157,6 +157,14 @@ export default async function PostPage({ params }: Props) {
           >
             Reddit
           </a>
+          <a
+            href={`https://bsky.app/intent/compose?text=${encodeURIComponent(post.title + " " + postUrl)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-[#faf6f0]/40 hover:text-[#faf6f0] tracking-widest uppercase transition-colors"
+          >
+            Bluesky
+          </a>
         </div>
 
         {/* Prev/Next navigation */}
