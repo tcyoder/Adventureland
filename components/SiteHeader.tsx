@@ -18,10 +18,6 @@ export default function SiteHeader() {
             Meet the Admin
           </Link>
           <span className="text-[#b87333]/30">·</span>
-          <a href="/feed.xml" title="RSS Feed" className="hover:text-[#b87333] transition-colors">
-            RSS
-          </a>
-          <span className="text-[#b87333]/30">·</span>
           <Link href="/admin" className="hover:text-[#b87333] transition-colors">
             ⚙
           </Link>
