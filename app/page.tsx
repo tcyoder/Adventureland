@@ -62,6 +62,19 @@ export default async function HomePage({
         <div className="deco-divider max-w-xs mx-auto mb-3">
           <span>◈</span>
         </div>
+        <div className="mb-4 flex items-center justify-center gap-4">
+          <a href="https://bsky.app/profile/lightandpower.bsky.social" target="_blank" rel="noopener noreferrer" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
+            Bluesky
+          </a>
+          <span className="text-[#b87333]/30">·</span>
+          <a href="mailto:N.Litened@proton.me" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
+            Contact
+          </a>
+          <span className="text-[#b87333]/30">·</span>
+          <a href="/feed.xml" title="RSS Feed" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
+            RSS
+          </a>
+        </div>
         TOMORROWLAND LIGHT &amp; POWER CO. · EST. 1994 · ALL RIGHTS RESERVED
       </footer>
     </div>
