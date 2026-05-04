@@ -17,7 +17,7 @@ function getWeekStart(date: Date): Date {
 export default async function AdminDashboard() {
   const weekOf = getWeekStart(new Date());
 
-  const [totalPosts, draftPosts, publishedPosts, recentDrafts, weeklyPrompt, unusedCount, aboutPost] = await Promise.all([
+  const [totalPosts, draftPosts, publishedPosts, recentDrafts, weeklyPrompt, unusedCount, aboutPost, topPosts] = await Promise.all([
     db.post.count(),
     db.post.count({ where: { status: PostStatus.DRAFT } }),
     db.post.count({ where: { status: PostStatus.PUBLISHED } }),
@@ -32,6 +32,12 @@ export default async function AdminDashboard() {
     }),
     db.promptBank.count({ where: { usedAt: null } }),
     db.post.findUnique({ where: { slug: "meet-the-admin" }, select: { status: true, updatedAt: true } }),
+    db.post.findMany({
+      where: { status: PostStatus.PUBLISHED },
+      orderBy: { views: "desc" },
+      take: 5,
+      select: { id: true, title: true, slug: true, views: true },
+    }),
   ]);
 
   return (
@@ -96,6 +102,34 @@ export default async function AdminDashboard() {
             </ul>
           )}
         </div>
+      </div>
+
+      {/* Top Posts by Views */}
+      <div className="mt-6 bg-[#1a2f45] border border-[#b87333]/20 rounded-lg p-6">
+        <h2 className="text-xs tracking-[0.2em] uppercase text-[#b87333] mb-4 font-semibold">
+          Top Posts by Views
+        </h2>
+        {topPosts.length === 0 ? (
+          <p className="text-[#faf6f0]/40 text-sm">No published posts yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {topPosts.map((post) => (
+              <li key={post.id}>
+                <Link
+                  href={`/admin/post/${post.id}/edit`}
+                  className="flex items-center justify-between group py-2 border-b border-[#b87333]/10 last:border-0"
+                >
+                  <span className="text-[#faf6f0]/80 group-hover:text-[#d4945a] text-sm transition-colors line-clamp-1">
+                    {post.title}
+                  </span>
+                  <span className="text-[#b87333] text-xs ml-4 shrink-0 font-semibold tabular-nums">
+                    {post.views.toLocaleString()} {post.views === 1 ? "view" : "views"}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {/* Meet the Admin */}

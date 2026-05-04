@@ -50,6 +50,9 @@ export default async function PostPage({ params }: Props) {
 
   if (!post) notFound();
 
+  // Increment view count (fire and forget)
+  db.post.update({ where: { id: post.id }, data: { views: { increment: 1 } } }).catch(() => {});
+
   // Adjacent posts for prev/next nav
   const allPosts = await db.post.findMany({
     where: { status: PostStatus.PUBLISHED },
