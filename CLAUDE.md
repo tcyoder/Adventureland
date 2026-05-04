@@ -157,7 +157,7 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] `.gitignore` updated (excludes `*.db`, `.env*`, `public/uploads/`, generated Prisma client)
 - [x] Image uploads in Tiptap editor body via "Upload Img" toolbar button → Vercel Blob
 - [x] Migrated from SQLite/better-sqlite3 to Neon PostgreSQL (`@prisma/adapter-neon`)
-- [x] Deployed to Vercel production (https://tomorrowlandlightandpowerco.vercel.app)
+- [x] Deployed to Vercel production (https://tomorrowlandlightandpowerco.vercel.app) — now live at https://tomorrowlandlightandpower.co
 - [x] DB-backed admin credentials (`AdminCredentials` table) — seeded from env vars on first login
 - [x] Emergency password reset at `/reset-password` (gated by `RESET_SECRET` env var, timing-safe)
 - [x] In-session password change at `/admin/change-password` (requires current password)
@@ -176,8 +176,18 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] Twitter/X, Reddit, and Bluesky share links on every post page
 - [x] `/tag/[tag]` pages exist (linked from sitemap) but tags not shown in public UI
 - [x] Post card CTA on homepage is type-aware: "Read Dispatch →" for FREE posts, "Read Transmission →" for PROMPTED posts
+- [x] Custom domain `tomorrowlandlightandpower.co` via Cloudflare Registrar — DNS points to Vercel (A + CNAME, proxy off); all SITE_URL references updated
+- [x] Homepage limited to 5 most recent posts (per active filter) with "View More →" link
+- [x] `/archive` page — month-filtered post list with sticky left sidebar month/year nav; filter type carries through from homepage
+- [x] Footer links: Bluesky profile, Contact email, RSS — centered under deco divider using equal-width grid
+- [x] Bluesky share link on every post page (alongside Twitter/X and Reddit)
+- [x] RSS link in site footer (`/feed.xml`)
+- [x] Vercel Analytics installed (`@vercel/analytics`) — tracks page views site-wide
+- [x] Post view counter — `views Int` on Post model, increments on each public page load; admin dashboard shows Top 5 Posts by Views widget
+- [x] GitHub repo set to private
+- [x] Google Search Console updated with new domain; sitemap resubmitted
+- [x] Expanded default tags: added `retrofuturism`, `atompunk`, `raygun-gothic`, `atomic-age`, `short-fiction`, `speculative-fiction`, `worldbuilding`; backfilled to all existing posts
 
 ### Not Yet Built
-- [ ] Custom domain (~$10/yr via Cloudflare Registrar recommended)
 - [ ] Email subscription (Buttondown or Resend) for audience building
 - [ ] Email notification when weekly prompt is assigned (optional)
