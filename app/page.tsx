@@ -74,7 +74,7 @@ export default async function HomePage({
 
       <footer className="border-t border-[#b87333]/20 py-8 text-center text-[#faf6f0]/30 text-xs tracking-widest">
         <div className="deco-divider max-w-xs mx-auto mb-3">
-          <span>◈</span>
+          <Link href="/login" className="hover:text-[#b87333]/60 transition-colors">◈</Link>
         </div>
         <div className="mb-4 flex items-center justify-center gap-3 flex-wrap">
           <a href="https://bsky.app/profile/lightandpower.bsky.social" target="_blank" rel="noopener noreferrer" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">

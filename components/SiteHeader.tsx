@@ -17,10 +17,6 @@ export default function SiteHeader() {
           <Link href="/about" className="hover:text-[#b87333] transition-colors">
             Meet the Admin
           </Link>
-          <span className="text-[#b87333]/30">·</span>
-          <Link href="/admin" className="hover:text-[#b87333] transition-colors">
-            ⚙
-          </Link>
         </div>
       </div>
     </header>
