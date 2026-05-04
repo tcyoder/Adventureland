@@ -189,6 +189,7 @@ pnpm prisma studio             # Browse/edit data in browser
 - [x] Expanded default tags: added `retrofuturism`, `atompunk`, `raygun-gothic`, `atomic-age`, `short-fiction`, `speculative-fiction`, `worldbuilding`; backfilled to all existing posts
 
 - [x] Buttondown email subscription link in footer (https://buttondown.com/xatencio) — Bluesky · Contact · Subscribe · RSS row on homepage and archive page
+- [x] Admin login hidden behind footer `◈` diamond — links to `/login` on homepage and archive; gear icon removed from site header
 
 ### Not Yet Built
 - [ ] Email notification when weekly prompt is assigned (optional)
