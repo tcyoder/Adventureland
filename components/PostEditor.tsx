@@ -47,10 +47,17 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
     "magic-kingdom",
     "blog",
     "retro-future",
+    "retrofuturism",
+    "atompunk",
+    "raygun-gothic",
+    "atomic-age",
     "league-of-planets",
     "light-and-power-company",
     "tomorrowland-light-and-power-co",
     "creative-writing",
+    "short-fiction",
+    "speculative-fiction",
+    "worldbuilding",
     "citizens-of-tomorrowland",
   ];
   const [tags, setTags] = useState<string[]>(post?.tags.length ? post.tags : DEFAULT_TAGS);
