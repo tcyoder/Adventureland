@@ -144,14 +144,20 @@ export default async function ArchivePage({ searchParams }: Props) {
         <div className="deco-divider max-w-xs mx-auto mb-3">
           <span>◈</span>
         </div>
-        <div className="mb-4 grid grid-cols-3 max-w-xs mx-auto">
-          <a href="https://bsky.app/profile/lightandpower.bsky.social" target="_blank" rel="noopener noreferrer" className="hover:text-[#b87333] transition-colors uppercase tracking-widest text-center">
+        <div className="mb-4 flex items-center justify-center gap-3 flex-wrap">
+          <a href="https://bsky.app/profile/lightandpower.bsky.social" target="_blank" rel="noopener noreferrer" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
             Bluesky
           </a>
-          <a href="mailto:N.Litened@proton.me" className="hover:text-[#b87333] transition-colors uppercase tracking-widest text-center">
+          <span className="text-[#b87333]/30">·</span>
+          <a href="mailto:N.Litened@proton.me" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
             Contact
           </a>
-          <a href="/feed.xml" title="RSS Feed" className="hover:text-[#b87333] transition-colors uppercase tracking-widest text-center">
+          <span className="text-[#b87333]/30">·</span>
+          <a href="https://buttondown.com/xatencio" target="_blank" rel="noopener noreferrer" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
+            Subscribe
+          </a>
+          <span className="text-[#b87333]/30">·</span>
+          <a href="/feed.xml" title="RSS Feed" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
             RSS
           </a>
         </div>
