@@ -98,7 +98,7 @@ export default async function PostPage({ params }: Props) {
         {/* Cover image */}
         {post.coverImage && (
           <div className="mb-8 rounded-lg overflow-hidden border border-[#b87333]/20">
-            <img src={post.coverImage} alt={post.title} className="w-full object-cover object-top max-h-72" />
+            <img src={post.coverImage} alt={post.title} className="w-full h-auto" />
           </div>
         )}
 
