@@ -39,7 +39,6 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     // auto-update slug only if title changed and no custom slug given
   }
 
-  const wasPublished = existing.status === PostStatus.PUBLISHED;
   const nowPublishing = status === PostStatus.PUBLISHED;
 
   const post = await db.post.update({
@@ -52,12 +51,11 @@ export async function PATCH(request: NextRequest, { params }: Params) {
       ...(status && { status: status as PostStatus }),
       ...(coverImage !== undefined && { coverImage }),
       ...(tags !== undefined && { tags: Array.isArray(tags) ? tags : [] }),
+      // Only stamp publishedAt the first time a post is published. Unpublishing
+      // (moving to DRAFT) no longer clears it, so a later republish doesn't
+      // jump the post to the top of the most-recent ordering.
       publishedAt:
-        nowPublishing && !wasPublished
-          ? new Date()
-          : status === PostStatus.DRAFT
-          ? null
-          : existing.publishedAt,
+        nowPublishing && !existing.publishedAt ? new Date() : existing.publishedAt,
     },
     include: { prompt: true },
   });
