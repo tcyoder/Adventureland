@@ -1,8 +1,7 @@
 import { MetadataRoute } from "next";
 import { db } from "@/lib/db";
 import { PostStatus } from "@/app/generated/prisma/client";
-
-const SITE_URL = "https://tomorrowlandlightandpower.co";
+import { SITE_URL } from "@/lib/config";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await db.post.findMany({
@@ -28,6 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     { url: SITE_URL, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
     { url: `${SITE_URL}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/archive`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.7 },
     ...postUrls,
     ...tagUrls,
   ];

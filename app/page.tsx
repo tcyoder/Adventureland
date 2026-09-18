@@ -1,11 +1,24 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { PostStatus } from "@/app/generated/prisma/client";
 import PostCard from "@/components/PostCard";
 import PostFilters from "@/components/PostFilters";
 import SiteHeader from "@/components/SiteHeader";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: SITE_NAME,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    url: SITE_URL,
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
+};
 
 export default async function HomePage({
   searchParams,

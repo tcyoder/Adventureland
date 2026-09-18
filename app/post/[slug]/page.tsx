@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { PostStatus } from "@/app/generated/prisma/client";
 import SiteHeader from "@/components/SiteHeader";
 import PostTypeBadge from "@/components/PostTypeBadge";
+import { SITE_URL } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
 
@@ -64,7 +65,6 @@ export default async function PostPage({ params }: Props) {
   const prev = idx > 0 ? allPosts[idx - 1] : null;
   const next = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
 
-  const SITE_URL = "https://tomorrowlandlightandpower.co";
   const postUrl = `${SITE_URL}/post/${post.slug}`;
   const description = post.excerpt || "A story from Tomorrowland Light & Power Co.";
 

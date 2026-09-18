@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Josefin_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import SessionProvider from "@/components/SessionProvider";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -16,10 +17,6 @@ const josefinSans = Josefin_Sans({
   display: "swap",
 });
 
-const SITE_URL = "https://tomorrowlandlightandpower.co";
-const SITE_NAME = "Tomorrowland Light & Power Co.";
-const SITE_DESCRIPTION =
-  "Stories and dispatches from New Tomorrowland 1994 — headquarters of the League of Planets, where the future never quite arrived.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

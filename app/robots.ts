@@ -1,6 +1,5 @@
 import { MetadataRoute } from "next";
-
-const SITE_URL = "https://tomorrowlandlightandpower.co";
+import { SITE_URL } from "@/lib/config";
 
 export default function robots(): MetadataRoute.Robots {
   return {

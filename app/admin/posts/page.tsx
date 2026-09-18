@@ -100,6 +100,7 @@ export default async function AdminPostsPage({
                     Published
                   </Link>
                 </th>
+                <th className="text-left px-3 py-3 hidden md:table-cell">Views</th>
                 <th className="text-right px-5 py-3">Actions</th>
               </tr>
             </thead>
@@ -139,6 +140,9 @@ export default async function AdminPostsPage({
                   </td>
                   <td className="px-3 py-3 hidden lg:table-cell text-[#faf6f0]/40 text-xs">
                     {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : "—"}
+                  </td>
+                  <td className="px-3 py-3 hidden md:table-cell text-[#faf6f0]/40 text-xs">
+                    {post.views.toLocaleString()}
                   </td>
                   <td className="px-5 py-3 text-right">
                     <div className="flex items-center justify-end gap-3">

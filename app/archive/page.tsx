@@ -1,11 +1,24 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { PostStatus } from "@/app/generated/prisma/client";
 import SiteHeader from "@/components/SiteHeader";
 import PostCard from "@/components/PostCard";
 import ArchiveFilters from "@/components/ArchiveFilters";
+import { SITE_URL } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Archive",
+  description: "Browse all stories and dispatches from Tomorrowland Light & Power Co. by month.",
+  openGraph: {
+    url: `${SITE_URL}/archive`,
+  },
+  alternates: {
+    canonical: `${SITE_URL}/archive`,
+  },
+};
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
