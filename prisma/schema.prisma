@@ -8,22 +8,24 @@ datasource db {
 }
 
 model Post {
-  id          String     @id @default(cuid())
-  title       String
-  slug        String     @unique
-  content     String
-  excerpt     String?
-  type        PostType
-  status      PostStatus @default(DRAFT)
-  promptId    String?
-  coverImage  String?
-  tags        String[]
-  views       Int        @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  publishedAt DateTime?
+  id            String     @id @default(cuid())
+  title         String
+  slug          String     @unique
+  content       String
+  excerpt       String?
+  type          PostType
+  status        PostStatus @default(DRAFT)
+  promptId      String?
+  promptBankId  String?
+  coverImage    String?
+  tags          String[]
+  views         Int        @default(0)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  publishedAt   DateTime?
 
-  prompt WeeklyPrompt? @relation(fields: [promptId], references: [id])
+  prompt     WeeklyPrompt? @relation(fields: [promptId], references: [id])
+  bankPrompt PromptBank?   @relation(fields: [promptBankId], references: [id])
 }
 
 model WeeklyPrompt {
@@ -47,6 +49,7 @@ model PromptBank {
   sortOrder  Int       @default(0)
 
   weeklyPrompt WeeklyPrompt[]
+  posts        Post[]
 }
 
 model AdminCredentials {

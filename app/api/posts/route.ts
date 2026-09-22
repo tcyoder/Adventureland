@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { title, content, excerpt, type, status, promptId, coverImage, tags, slug: customSlug } = body;
+  const { title, content, excerpt, type, status, promptId, promptBankId, coverImage, tags, slug: customSlug } = body;
 
   if (!title || !content || !type) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -54,20 +54,32 @@ export async function POST(request: NextRequest) {
     slug = `${baseSlug}-${counter++}`;
   }
 
-  const post = await db.post.create({
-    data: {
-      title,
-      slug,
-      content,
-      excerpt: excerpt || null,
-      type: type as PostType,
-      status: (status as PostStatus) || PostStatus.DRAFT,
-      promptId: promptId || null,
-      coverImage: coverImage || null,
-      tags: Array.isArray(tags) ? tags : [],
-      publishedAt: status === PostStatus.PUBLISHED ? new Date() : null,
-    },
-    include: { prompt: true },
+  const post = await db.$transaction(async (tx) => {
+    const created = await tx.post.create({
+      data: {
+        title,
+        slug,
+        content,
+        excerpt: excerpt || null,
+        type: type as PostType,
+        status: (status as PostStatus) || PostStatus.DRAFT,
+        promptId: promptId || null,
+        promptBankId: promptBankId || null,
+        coverImage: coverImage || null,
+        tags: Array.isArray(tags) ? tags : [],
+        publishedAt: status === PostStatus.PUBLISHED ? new Date() : null,
+      },
+      include: { prompt: true, bankPrompt: true },
+    });
+
+    if (promptBankId) {
+      await tx.promptBank.update({
+        where: { id: promptBankId },
+        data: { usedAt: new Date() },
+      });
+    }
+
+    return created;
   });
 
   return NextResponse.json(post, { status: 201 });

@@ -1,149 +1,84 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import type { WeeklyPrompt, Post } from "@/app/generated/prisma/client";
+import type { Post } from "@/app/generated/prisma/client";
 
-const PostStatus = { PUBLISHED: "PUBLISHED" as const, DRAFT: "DRAFT" as const };
-
-type PromptWithPosts = (WeeklyPrompt & { posts: Pick<Post, "id" | "title" | "slug" | "status">[] }) | null;
+type RecentTransmission = Pick<Post, "id" | "title" | "status">;
 
 export default function PromptPanel({
-  prompt,
   unusedCount,
+  recentTransmissions,
 }: {
-  prompt: PromptWithPosts;
   unusedCount: number;
+  recentTransmissions: RecentTransmission[];
 }) {
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [bankError, setBankError] = useState("");
-
-  async function handleAssign() {
-    setLoading(true);
-    setBankError("");
-    try {
-      const res = await fetch("/api/cron/generate-prompt", { method: "POST" });
-      const data = await res.json();
-      if (!res.ok) {
-        setBankError(data.error ?? "Failed to assign prompt.");
-      } else {
-        router.refresh();
-      }
-    } catch {
-      setBankError("Request failed.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const publishedResponse = prompt?.posts?.find((p) => p.status === PostStatus.PUBLISHED);
-  const draftResponse = prompt?.posts?.find((p) => p.status === PostStatus.DRAFT);
-
   return (
     <div className="bg-[#1a2e10] border border-[#2d9c6e]/20 rounded-lg p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xs tracking-[0.2em] uppercase text-[#2d9c6e] font-semibold">
-          ◉ This Week's Prompt
+          ◉ Transmissions
         </h2>
-        <div className="flex items-center gap-3">
-          <span className="text-[#f0e6c8]/25 text-xs">{unusedCount} in bank</span>
-          <Link
-            href="/admin/prompts"
-            className="text-xs tracking-widest uppercase text-[#f0e6c8]/40 hover:text-[#c9a227] transition-colors"
-          >
-            Manage →
-          </Link>
-        </div>
+        <Link
+          href="/admin/prompts"
+          className="text-xs tracking-widest uppercase text-[#f0e6c8]/40 hover:text-[#c9a227] transition-colors"
+        >
+          Manage Prompts →
+        </Link>
       </div>
 
-      {bankError && (
+      {/* Bank status */}
+      <div className="flex items-center gap-2 mb-5">
+        <span
+          className={`text-2xl font-bold font-[family-name:var(--font-josefin)] ${
+            unusedCount === 0 ? "text-red-400" : "text-[#2d9c6e]"
+          }`}
+        >
+          {unusedCount}
+        </span>
+        <span className="text-[#f0e6c8]/40 text-sm">
+          {unusedCount === 1 ? "prompt" : "prompts"} available in bank
+        </span>
+      </div>
+
+      {unusedCount === 0 && (
         <p className="text-amber-400 text-xs bg-amber-400/10 border border-amber-400/20 rounded px-3 py-2 mb-4">
-          {bankError}{" "}
-          <Link href="/admin/prompts" className="underline">
-            Add prompts to the bank →
+          Prompt bank is empty.{" "}
+          <Link href="/admin/prompts" className="underline hover:text-amber-300 transition-colors">
+            Add prompts →
           </Link>
         </p>
       )}
 
-      {prompt ? (
-        <>
-          <p className="text-[#f0e6c8]/80 italic text-sm leading-relaxed mb-5">
-            {prompt.promptText}
-          </p>
+      <Link
+        href="/admin/post/new"
+        className="inline-block bg-[#2d9c6e] hover:bg-[#5eead4] text-[#0d1a08] font-bold px-4 py-2 rounded text-xs tracking-widest uppercase transition-colors mb-5"
+      >
+        + New Transmission
+      </Link>
 
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              {publishedResponse ? (
-                <div className="flex items-center gap-2 text-xs text-[#2d9c6e]">
-                  <span className="w-2 h-2 rounded-full bg-[#2d9c6e]" />
-                  <span>Responded:</span>
-                  <Link
-                    href={`/admin/post/${publishedResponse.id}/edit`}
-                    className="underline hover:text-[#f0e6c8] transition-colors"
-                  >
-                    {publishedResponse.title}
-                  </Link>
-                </div>
-              ) : draftResponse ? (
-                <div className="flex items-center gap-2 text-xs text-[#d47b0a]">
-                  <span className="w-2 h-2 rounded-full bg-[#d47b0a]" />
-                  <span>Draft in progress:</span>
-                  <Link
-                    href={`/admin/post/${draftResponse.id}/edit`}
-                    className="underline hover:text-[#f0e6c8] transition-colors"
-                  >
-                    {draftResponse.title}
-                  </Link>
-                </div>
-              ) : (
+      {/* Recent transmissions */}
+      {recentTransmissions.length > 0 && (
+        <div>
+          <div className="text-[#f0e6c8]/30 text-[10px] tracking-widest uppercase mb-2">Recent</div>
+          <ul className="space-y-2">
+            {recentTransmissions.map((post) => (
+              <li key={post.id}>
                 <Link
-                  href={`/admin/post/new?promptId=${prompt.id}&type=PROMPTED`}
-                  className="bg-[#2d9c6e] hover:bg-[#5eead4] text-[#0d1a08] font-bold px-4 py-2 rounded text-xs tracking-widest uppercase transition-colors"
+                  href={`/admin/post/${post.id}/edit`}
+                  className="flex items-center justify-between group py-1.5 border-b border-[#2d9c6e]/10 last:border-0"
                 >
-                  Write Your Story →
+                  <span className="text-[#f0e6c8]/70 group-hover:text-[#f0e6c8] text-sm transition-colors line-clamp-1">
+                    {post.title}
+                  </span>
+                  <span
+                    className={`text-[10px] ml-2 shrink-0 ${
+                      post.status === "PUBLISHED" ? "text-[#2d9c6e]" : "text-[#d47b0a]"
+                    }`}
+                  >
+                    {post.status === "PUBLISHED" ? "Live" : "Draft"}
+                  </span>
                 </Link>
-              )}
-            </div>
-
-            {unusedCount > 0 && (
-              <button
-                onClick={handleAssign}
-                disabled={loading}
-                className="text-xs tracking-widest uppercase text-[#f0e6c8]/30 hover:text-[#2d9c6e] transition-colors disabled:opacity-40"
-              >
-                {loading ? "…" : "↻ Use Next"}
-              </button>
-            )}
-          </div>
-        </>
-      ) : (
-        <div className="text-center py-4">
-          {unusedCount > 0 ? (
-            <>
-              <p className="text-[#f0e6c8]/40 text-sm mb-4">
-                No prompt assigned this week yet.
-              </p>
-              <button
-                onClick={handleAssign}
-                disabled={loading}
-                className="bg-[#2d9c6e] hover:bg-[#5eead4] disabled:opacity-50 text-[#0d1a08] font-bold px-5 py-2 rounded text-xs tracking-widest uppercase transition-colors"
-              >
-                {loading ? "Assigning…" : "Assign This Week's Prompt"}
-              </button>
-            </>
-          ) : (
-            <div className="text-[#f0e6c8]/40 text-sm">
-              <p className="mb-3">No prompt assigned and the bank is empty.</p>
-              <Link
-                href="/admin/prompts"
-                className="text-[#c9a227] hover:text-[#e2b84e] underline transition-colors"
-              >
-                Add prompts to the bank →
-              </Link>
-            </div>
-          )}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import type { Post, WeeklyPrompt } from "@/app/generated/prisma/client";
+import type { Post, WeeklyPrompt, PromptBank } from "@/app/generated/prisma/client";
 
 // Use string literal types to avoid importing Prisma runtime in the browser
 type PostType = "PROMPTED" | "FREE";
@@ -22,16 +22,17 @@ function slugify(text: string): string {
 
 const RichTextEditor = dynamic(() => import("@/components/Editor/RichTextEditor"), { ssr: false });
 
-type PostWithPrompt = Post & { prompt: WeeklyPrompt | null };
+type PostWithPrompt = Post & {
+  prompt: WeeklyPrompt | null;
+  bankPrompt: PromptBank | null;
+};
 
 type Props = {
   post?: PostWithPrompt | null;
-  promptId?: string | null;
-  prompt?: WeeklyPrompt | null;
-  defaultType?: PostType;
+  initialBankPrompts?: PromptBank[];
 };
 
-export default function PostEditor({ post, promptId, prompt, defaultType }: Props) {
+export default function PostEditor({ post, initialBankPrompts = [] }: Props) {
   const router = useRouter();
   const isNew = !post;
 
@@ -61,7 +62,8 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
   ];
   const [tags, setTags] = useState<string[]>(post?.tags.length ? post.tags : DEFAULT_TAGS);
   const [tagInput, setTagInput] = useState("");
-  const [type] = useState<PostType>((post?.type ?? defaultType) || PostType.FREE);
+  const [type, setType] = useState<PostType>((post?.type as PostType) ?? PostType.FREE);
+  const [selectedPrompt, setSelectedPrompt] = useState<PromptBank | null>(null);
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -69,12 +71,21 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
 
   const autoSlugRef = useRef(true);
 
+  // The prompt to display in the reference panel
+  const displayPrompt: { promptText: string } | null =
+    selectedPrompt ?? post?.bankPrompt ?? post?.prompt ?? null;
+
   // Auto-generate slug from title for new posts
   useEffect(() => {
     if (isNew && autoSlugRef.current && title) {
       setSlug(slugify(title));
     }
   }, [title, isNew]);
+
+  // Clear selected prompt when switching away from Transmission
+  useEffect(() => {
+    if (type === PostType.FREE) setSelectedPrompt(null);
+  }, [type]);
 
   // Debounced auto-save
   const autoSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -94,7 +105,8 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
         tags,
         type,
         status: status ?? post?.status ?? PostStatus.DRAFT,
-        promptId: promptId ?? post?.promptId ?? null,
+        promptBankId: selectedPrompt?.id ?? post?.promptBankId ?? null,
+        promptId: post?.promptId ?? null,
       };
 
       try {
@@ -129,7 +141,7 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
         setSaving(false);
       }
     },
-    [title, slug, excerpt, content, coverImage, tags, type, promptId, post, isNew, router]
+    [title, slug, excerpt, content, coverImage, tags, type, selectedPrompt, post, isNew, router]
   );
 
   // Auto-save every 30s when content changes
@@ -183,6 +195,9 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
     router.push("/admin/posts");
   }
 
+  const unusedPrompts = initialBankPrompts.filter((p) => !p.usedAt);
+  const usedPrompts = initialBankPrompts.filter((p) => p.usedAt);
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-6 flex items-center justify-between gap-4">
@@ -191,15 +206,18 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
             {isNew ? "New Post" : "Edit Post"}
           </h1>
           <div className="flex items-center gap-3 mt-1 text-xs text-[#f0e6c8]/40">
-            <span
-              className={`px-2 py-0.5 rounded border ${
-                type === "PROMPTED"
-                  ? "border-[#2d9c6e]/30 text-[#2d9c6e]"
-                  : "border-[#c9a227]/30 text-[#c9a227]"
-              }`}
-            >
-              {type === "PROMPTED" ? "◉ Transmission" : "✍ Dispatch"}
-            </span>
+            {/* Type badge — display-only for existing posts */}
+            {!isNew && (
+              <span
+                className={`px-2 py-0.5 rounded border ${
+                  type === "PROMPTED"
+                    ? "border-[#2d9c6e]/30 text-[#2d9c6e]"
+                    : "border-[#c9a227]/30 text-[#c9a227]"
+                }`}
+              >
+                {type === "PROMPTED" ? "◉ Transmission" : "✍ Dispatch"}
+              </span>
+            )}
             {post?.status && (
               <span
                 className={`px-2 py-0.5 rounded border ${
@@ -260,14 +278,111 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
         </div>
       )}
 
-      {/* Prompt reference panel */}
-      {(prompt ?? post?.prompt) && (
+      {/* Type toggle — new posts only */}
+      {isNew && (
+        <div className="mb-6">
+          <label className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2">
+            Post Type
+          </label>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => setType(PostType.FREE)}
+              className={`px-5 py-2.5 rounded-full text-xs tracking-[0.15em] uppercase border transition-all ${
+                type === PostType.FREE
+                  ? "bg-[#c9a227] border-[#c9a227] text-[#0d1a08] font-bold"
+                  : "border-[#c9a227]/30 text-[#f0e6c8]/60 hover:border-[#c9a227]/60 hover:text-[#f0e6c8]"
+              }`}
+            >
+              ✍ Dispatch
+            </button>
+            <button
+              type="button"
+              onClick={() => setType(PostType.PROMPTED)}
+              className={`px-5 py-2.5 rounded-full text-xs tracking-[0.15em] uppercase border transition-all ${
+                type === PostType.PROMPTED
+                  ? "bg-[#2d9c6e] border-[#2d9c6e] text-[#0d1a08] font-bold"
+                  : "border-[#2d9c6e]/30 text-[#f0e6c8]/60 hover:border-[#2d9c6e]/60 hover:text-[#f0e6c8]"
+              }`}
+            >
+              ◉ Transmission
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Prompt picker — new Transmissions only */}
+      {isNew && type === PostType.PROMPTED && (
+        <div className="mb-6 bg-[#1a2e10] border border-[#2d9c6e]/20 rounded-lg p-4">
+          <div className="text-[#2d9c6e] text-xs tracking-[0.2em] uppercase font-semibold mb-3">
+            ◉ Choose a Writing Prompt
+          </div>
+
+          {initialBankPrompts.length === 0 ? (
+            <p className="text-[#f0e6c8]/40 text-sm">
+              No prompts in the bank.{" "}
+              <a href="/admin/prompts" className="underline text-[#c9a227] hover:text-[#e2b84e]">
+                Add some →
+              </a>
+            </p>
+          ) : (
+            <>
+              {unusedPrompts.length > 0 && (
+                <div className="mb-4">
+                  <div className="text-[#f0e6c8]/30 text-[10px] tracking-widest uppercase mb-2">Available</div>
+                  <div className="space-y-2">
+                    {unusedPrompts.map((p) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => setSelectedPrompt(selectedPrompt?.id === p.id ? null : p)}
+                        className={`w-full text-left px-4 py-3 rounded border text-sm leading-relaxed transition-all ${
+                          selectedPrompt?.id === p.id
+                            ? "border-[#2d9c6e] bg-[#2d9c6e]/10 text-[#f0e6c8]"
+                            : "border-[#2d9c6e]/20 text-[#f0e6c8]/70 hover:border-[#2d9c6e]/50 hover:text-[#f0e6c8]"
+                        }`}
+                      >
+                        {p.promptText}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {usedPrompts.length > 0 && (
+                <div>
+                  <div className="text-[#f0e6c8]/30 text-[10px] tracking-widest uppercase mb-2">Previously Used</div>
+                  <div className="space-y-2">
+                    {usedPrompts.map((p) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => setSelectedPrompt(selectedPrompt?.id === p.id ? null : p)}
+                        className={`w-full text-left px-4 py-3 rounded border text-sm leading-relaxed transition-all ${
+                          selectedPrompt?.id === p.id
+                            ? "border-[#2d9c6e] bg-[#2d9c6e]/10 text-[#f0e6c8]"
+                            : "border-[#c9a227]/10 text-[#f0e6c8]/40 hover:border-[#c9a227]/30 hover:text-[#f0e6c8]/70"
+                        }`}
+                      >
+                        {p.promptText}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
+      {/* Prompt reference panel — shows selected prompt or existing post's prompt */}
+      {!isNew && displayPrompt && (
         <div className="mb-6 bg-[#1a2e10] border border-[#2d9c6e]/20 rounded-lg p-4">
           <div className="text-[#2d9c6e] text-xs tracking-[0.2em] uppercase font-semibold mb-2">
             ◉ Writing Prompt
           </div>
           <p className="text-[#f0e6c8]/70 italic text-sm leading-relaxed">
-            {(prompt ?? post?.prompt)?.promptText}
+            {displayPrompt.promptText}
           </p>
         </div>
       )}

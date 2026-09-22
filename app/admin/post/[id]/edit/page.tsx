@@ -9,7 +9,7 @@ export default async function EditPostPage({ params }: Props) {
 
   const post = await db.post.findUnique({
     where: { id },
-    include: { prompt: true },
+    include: { prompt: true, bankPrompt: true },
   });
 
   if (!post) notFound();

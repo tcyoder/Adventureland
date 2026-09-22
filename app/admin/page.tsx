@@ -1,23 +1,12 @@
 import { db } from "@/lib/db";
-import { PostStatus } from "@/app/generated/prisma/client";
+import { PostStatus, PostType } from "@/app/generated/prisma/client";
 import Link from "next/link";
 import PromptPanel from "@/components/PromptPanel";
 
 export const dynamic = "force-dynamic";
 
-function getWeekStart(date: Date): Date {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  d.setDate(diff);
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
-
 export default async function AdminDashboard() {
-  const weekOf = getWeekStart(new Date());
-
-  const [totalPosts, draftPosts, publishedPosts, recentDrafts, weeklyPrompt, unusedCount, aboutPost, topPosts] = await Promise.all([
+  const [totalPosts, draftPosts, publishedPosts, recentDrafts, unusedCount, recentTransmissions, aboutPost, topPosts] = await Promise.all([
     db.post.count(),
     db.post.count({ where: { status: PostStatus.DRAFT } }),
     db.post.count({ where: { status: PostStatus.PUBLISHED } }),
@@ -26,11 +15,13 @@ export default async function AdminDashboard() {
       orderBy: { updatedAt: "desc" },
       take: 5,
     }),
-    db.weeklyPrompt.findUnique({
-      where: { weekOf },
-      include: { posts: { select: { id: true, title: true, slug: true, status: true } } },
-    }),
     db.promptBank.count({ where: { usedAt: null } }),
+    db.post.findMany({
+      where: { type: PostType.PROMPTED },
+      orderBy: { createdAt: "desc" },
+      take: 3,
+      select: { id: true, title: true, status: true },
+    }),
     db.post.findUnique({ where: { slug: "meet-the-admin" }, select: { status: true, updatedAt: true } }),
     db.post.findMany({
       where: { status: PostStatus.PUBLISHED },
@@ -74,8 +65,8 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Weekly Prompt Panel */}
-        <PromptPanel prompt={weeklyPrompt} unusedCount={unusedCount} />
+        {/* Transmissions Panel */}
+        <PromptPanel unusedCount={unusedCount} recentTransmissions={recentTransmissions} />
 
         {/* Recent Drafts */}
         <div className="bg-[#1a2e10] border border-[#c9a227]/20 rounded-lg p-6">
