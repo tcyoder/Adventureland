@@ -8,33 +8,33 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!session) redirect("/login");
 
   return (
-    <div className="min-h-screen bg-[#0f1923] text-[#faf6f0]">
+    <div className="min-h-screen bg-[#0f1923] text-[#f0e6c8]">
       {/* Admin header */}
-      <header className="bg-[#0d1b2a] border-b border-[#b87333]/20 px-6 py-4 flex items-center justify-between">
+      <header className="bg-[#0d1a08] border-b border-[#c9a227]/20 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/admin" className="text-[#b87333] font-bold tracking-widest text-sm uppercase">
-            ⚙ Control Room
+          <Link href="/admin" className="text-[#c9a227] font-bold tracking-widest text-sm uppercase">
+🗺 Chart Room
           </Link>
-          <nav className="hidden sm:flex gap-4 text-xs tracking-widest uppercase text-[#faf6f0]/50">
-            <Link href="/admin" className="hover:text-[#faf6f0] transition-colors">
+          <nav className="hidden sm:flex gap-4 text-xs tracking-widest uppercase text-[#f0e6c8]/50">
+            <Link href="/admin" className="hover:text-[#f0e6c8] transition-colors">
               Dashboard
             </Link>
-            <Link href="/admin/posts" className="hover:text-[#faf6f0] transition-colors">
+            <Link href="/admin/posts" className="hover:text-[#f0e6c8] transition-colors">
               All Posts
             </Link>
-            <Link href="/admin/post/new" className="hover:text-[#faf6f0] transition-colors">
+            <Link href="/admin/post/new" className="hover:text-[#f0e6c8] transition-colors">
               New Post
             </Link>
-            <Link href="/admin/prompts" className="hover:text-[#faf6f0] transition-colors">
+            <Link href="/admin/prompts" className="hover:text-[#f0e6c8] transition-colors">
               Prompt Bank
             </Link>
-            <Link href="/admin/change-password" className="hover:text-[#faf6f0] transition-colors">
+            <Link href="/admin/change-password" className="hover:text-[#f0e6c8] transition-colors">
               Password
             </Link>
           </nav>
         </div>
         <div className="flex items-center gap-4 text-xs">
-          <Link href="/" className="text-[#faf6f0]/40 hover:text-[#faf6f0] tracking-widest uppercase transition-colors">
+          <Link href="/" className="text-[#f0e6c8]/40 hover:text-[#f0e6c8] tracking-widest uppercase transition-colors">
             View Site →
           </Link>
           <AdminSignOut />

@@ -1,4 +1,4 @@
-export const SITE_URL = "https://tomorrowlandlightandpower.co";
-export const SITE_NAME = "Tomorrowland Light & Power Co.";
+export const SITE_URL = "https://adventureland-swart.vercel.app";
+export const SITE_NAME = "Adventure Trading Company";
 export const SITE_DESCRIPTION =
-  "Stories and dispatches from New Tomorrowland 1994 — headquarters of the League of Planets, where the future never quite arrived.";
+  "Dispatches and transmissions from the furthest reaches of the jungle — where every river bends toward mystery and every trader has a story to tell.";

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { PostStatus } from "@/app/generated/prisma/client";
 import SiteHeader from "@/components/SiteHeader";
@@ -11,7 +12,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Archive",
-  description: "Browse all stories and dispatches from Tomorrowland Light & Power Co. by month.",
+  description: "Browse all stories and dispatches from the Adventure Trading Company by month.",
   openGraph: {
     url: `${SITE_URL}/archive`,
   },
@@ -88,7 +89,7 @@ export default async function ArchivePage({ searchParams }: Props) {
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-8 sm:py-12">
         {/* Back to latest */}
         <div className="mb-6">
-          <Link href="/" className="text-xs tracking-[0.2em] uppercase text-[#faf6f0]/40 hover:text-[#b87333] transition-colors">
+          <Link href="/" className="text-xs tracking-[0.2em] uppercase text-[#f0e6c8]/40 hover:text-[#c9a227] transition-colors">
             ← Latest
           </Link>
         </div>
@@ -97,10 +98,10 @@ export default async function ArchivePage({ searchParams }: Props) {
           {/* Sidebar: month navigation */}
           <aside className="mb-8 lg:mb-0">
             <div className="lg:sticky lg:top-8">
-              <h2 className="text-[10px] tracking-[0.3em] uppercase text-[#b87333] mb-4">Archive</h2>
+              <h2 className="text-[10px] tracking-[0.3em] uppercase text-[#c9a227] mb-4">Archive</h2>
               {years.map((y) => (
                 <div key={y} className="mb-4">
-                  <div className="text-[10px] tracking-[0.25em] uppercase text-[#faf6f0]/30 mb-1">{y}</div>
+                  <div className="text-[10px] tracking-[0.25em] uppercase text-[#f0e6c8]/30 mb-1">{y}</div>
                   <ul className="space-y-1">
                     {byYear.get(y)!.map((m) => {
                       const isActive = y === year && m === month;
@@ -114,8 +115,8 @@ export default async function ArchivePage({ searchParams }: Props) {
                             href={`/archive?${navParams.toString()}`}
                             className={`text-xs tracking-[0.15em] uppercase transition-colors ${
                               isActive
-                                ? "text-[#b87333] font-semibold"
-                                : "text-[#faf6f0]/40 hover:text-[#faf6f0]"
+                                ? "text-[#c9a227] font-semibold"
+                                : "text-[#f0e6c8]/40 hover:text-[#f0e6c8]"
                             }`}
                           >
                             {MONTH_NAMES[m - 1]}
@@ -131,14 +132,14 @@ export default async function ArchivePage({ searchParams }: Props) {
 
           {/* Main content */}
           <div>
-            <h1 className="font-[family-name:var(--font-josefin)] text-2xl sm:text-3xl font-bold tracking-wide text-[#faf6f0] mb-6">
+            <h1 className="font-[family-name:var(--font-josefin)] text-2xl sm:text-3xl font-bold tracking-wide text-[#f0e6c8] mb-6">
               {monthLabel}
             </h1>
 
             <ArchiveFilters year={year} month={month} activeType={type} />
 
             {posts.length === 0 ? (
-              <div className="text-center py-20 text-[#faf6f0]/40">
+              <div className="text-center py-20 text-[#f0e6c8]/40">
                 <div className="text-5xl mb-4">◈</div>
                 <p className="text-lg">No posts this month.</p>
               </div>
@@ -153,28 +154,30 @@ export default async function ArchivePage({ searchParams }: Props) {
         </div>
       </main>
 
-      <footer className="border-t border-[#b87333]/20 py-8 text-center text-[#faf6f0]/30 text-xs tracking-widest">
-        <div className="deco-divider max-w-xs mx-auto mb-3">
-          <Link href="/login" className="hover:text-[#b87333]/60 transition-colors">◈</Link>
+      <footer className="border-t border-[#c9a227]/20 py-8 text-center text-[#f0e6c8]/30 text-xs tracking-widest">
+        <div className="flex justify-center mb-3">
+          <Link href="/login" className="opacity-30 hover:opacity-60 transition-opacity">
+            <Image src="/images/logo-small.png" alt="" width={40} height={40} className="h-10 w-10 object-contain " />
+          </Link>
         </div>
         <div className="mb-4 flex items-center justify-center gap-3 flex-wrap">
-          <a href="https://bsky.app/profile/lightandpower.bsky.social" target="_blank" rel="noopener noreferrer" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
+          <a href="https://bsky.app" target="_blank" rel="noopener noreferrer" className="hover:text-[#c9a227] transition-colors uppercase tracking-widest">
             Bluesky
           </a>
-          <span className="text-[#b87333]/30">·</span>
-          <a href="mailto:N.Litened@proton.me" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
+          <span className="text-[#c9a227]/30">·</span>
+          <a href="mailto:N.Litened@proton.me" className="hover:text-[#c9a227] transition-colors uppercase tracking-widest">
             Contact
           </a>
-          <span className="text-[#b87333]/30">·</span>
-          <a href="https://buttondown.com/xatencio" target="_blank" rel="noopener noreferrer" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
+          <span className="text-[#c9a227]/30">·</span>
+          <a href="https://buttondown.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#c9a227] transition-colors uppercase tracking-widest">
             Subscribe
           </a>
-          <span className="text-[#b87333]/30">·</span>
-          <a href="/feed.xml" title="RSS Feed" className="hover:text-[#b87333] transition-colors uppercase tracking-widest">
+          <span className="text-[#c9a227]/30">·</span>
+          <a href="/feed.xml" title="RSS Feed" className="hover:text-[#c9a227] transition-colors uppercase tracking-widest">
             RSS
           </a>
         </div>
-        TOMORROWLAND LIGHT &amp; POWER CO. · EST. 1994 · ALL RIGHTS RESERVED
+        ADVENTURE TRADING COMPANY · EST. IN THE HEART OF THE JUNGLE · ALL RIGHTS RESERVED
       </footer>
     </div>
   );
