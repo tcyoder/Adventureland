@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Suspense } from "react";
 
 function LoginForm() {
@@ -37,29 +38,29 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1b2a] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#0d1a08] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="text-[#b87333] text-5xl mb-3">⚙</div>
-          <h1 className="font-[family-name:var(--font-josefin)] text-2xl font-bold tracking-[0.15em] text-[#faf6f0] uppercase">
-            Tomorrowland
+          <Image src="/images/logo-small.png" alt="Adventure Trading Company" width={80} height={80} className="h-20 w-20 object-contain mx-auto mb-3" />
+          <h1 className="font-[family-name:var(--font-josefin)] text-2xl font-bold tracking-[0.15em] text-[#f0e6c8] uppercase">
+            Adventure Trading
           </h1>
-          <p className="text-[#b87333] text-xs tracking-[0.3em] uppercase mt-1">
-            Light &amp; Power Co.
+          <p className="text-[#c9a227] text-xs tracking-[0.3em] uppercase mt-1">
+            Company
           </p>
           <div className="mt-4 deco-divider">
-            <span className="text-xs text-[#b87333]/60 tracking-widest">SECURE ACCESS</span>
+            <span className="text-xs text-[#c9a227]/60 tracking-widest">SECURE ACCESS</span>
           </div>
         </div>
 
         {/* Form */}
-        <div className="bg-[#1a2f45] border border-[#b87333]/30 rounded-lg p-8">
+        <div className="bg-[#1a2e10] border border-[#c9a227]/30 rounded-lg p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
                 htmlFor="username"
-                className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2"
+                className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2"
               >
                 Username
               </label>
@@ -70,7 +71,7 @@ function LoginForm() {
                 onChange={(e) => setUsername(e.target.value)}
                 required
                 autoComplete="username"
-                className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] transition-colors"
+                className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] transition-colors"
                 placeholder="admin"
               />
             </div>
@@ -78,7 +79,7 @@ function LoginForm() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2"
+                className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2"
               >
                 Password
               </label>
@@ -89,7 +90,7 @@ function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] transition-colors"
+                className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] transition-colors"
                 placeholder="••••••••"
               />
             </div>
@@ -103,7 +104,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#b87333] hover:bg-[#d4945a] disabled:opacity-50 text-[#0d1b2a] font-bold py-3 rounded tracking-[0.1em] uppercase text-sm transition-colors"
+              className="w-full bg-[#c9a227] hover:bg-[#e2b84e] disabled:opacity-50 text-[#0d1a08] font-bold py-3 rounded tracking-[0.1em] uppercase text-sm transition-colors"
             >
               {loading ? "Authenticating…" : "Access Terminal"}
             </button>
@@ -111,10 +112,10 @@ function LoginForm() {
         </div>
 
         <div className="text-center mt-6 space-y-2">
-          <p className="text-[#faf6f0]/20 text-xs tracking-widest">
+          <p className="text-[#f0e6c8]/20 text-xs tracking-widest">
             AUTHORIZED PERSONNEL ONLY
           </p>
-          <Link href="/reset-password" className="text-[#faf6f0]/25 hover:text-[#b87333]/60 text-xs tracking-widest uppercase transition-colors">
+          <Link href="/reset-password" className="text-[#f0e6c8]/25 hover:text-[#c9a227]/60 text-xs tracking-widest uppercase transition-colors">
             Forgot password?
           </Link>
         </div>

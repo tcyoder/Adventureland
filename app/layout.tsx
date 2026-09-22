@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { DM_Sans, Josefin_Sans } from "next/font/google";
+import { Lora, Cinzel } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import SessionProvider from "@/components/SessionProvider";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 import "./globals.css";
 
-const dmSans = DM_Sans({
+const lora = Lora({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const josefinSans = Josefin_Sans({
+const cinzel = Cinzel({
   variable: "--font-josefin",
   subsets: ["latin"],
   display: "swap",
@@ -46,16 +46,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${dmSans.variable} ${josefinSans.variable}`}>
+    <html lang="en" className={`${lora.variable} ${cinzel.variable}`}>
       <head>
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="Tomorrowland Light & Power Co."
+          title="Adventure Trading Company"
           href="/feed.xml"
         />
       </head>
-      <body className="min-h-screen bg-[#0d1b2a] text-[#faf6f0] font-[family-name:var(--font-dm-sans)] antialiased">
+      <body className="min-h-screen bg-[#0d1a08] text-[#f0e6c8] font-[family-name:var(--font-dm-sans)] antialiased">
         <SessionProvider>{children}</SessionProvider>
         <Analytics />
       </body>

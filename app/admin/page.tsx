@@ -43,12 +43,12 @@ export default async function AdminDashboard() {
   return (
     <div>
       <div className="mb-8 flex items-center justify-between">
-        <h1 className="font-[family-name:var(--font-josefin)] text-3xl font-bold tracking-wide text-[#faf6f0]">
+        <h1 className="font-[family-name:var(--font-josefin)] text-3xl font-bold tracking-wide text-[#f0e6c8]">
           Dashboard
         </h1>
         <Link
           href="/admin/post/new"
-          className="bg-[#b87333] hover:bg-[#d4945a] text-[#0d1b2a] font-bold px-5 py-2.5 rounded text-sm tracking-widest uppercase transition-colors"
+          className="bg-[#c9a227] hover:bg-[#e2b84e] text-[#0d1a08] font-bold px-5 py-2.5 rounded text-sm tracking-widest uppercase transition-colors"
         >
           + New Post
         </Link>
@@ -63,12 +63,12 @@ export default async function AdminDashboard() {
         ].map(({ label, value }) => (
           <div
             key={label}
-            className="bg-[#1a2f45] border border-[#b87333]/20 rounded-lg p-5 text-center"
+            className="bg-[#1a2e10] border border-[#c9a227]/20 rounded-lg p-5 text-center"
           >
-            <div className="font-[family-name:var(--font-josefin)] text-4xl font-bold text-[#b87333]">
+            <div className="font-[family-name:var(--font-josefin)] text-4xl font-bold text-[#c9a227]">
               {value}
             </div>
-            <div className="text-xs tracking-widest uppercase text-[#faf6f0]/50 mt-1">{label}</div>
+            <div className="text-xs tracking-widest uppercase text-[#f0e6c8]/50 mt-1">{label}</div>
           </div>
         ))}
       </div>
@@ -78,24 +78,24 @@ export default async function AdminDashboard() {
         <PromptPanel prompt={weeklyPrompt} unusedCount={unusedCount} />
 
         {/* Recent Drafts */}
-        <div className="bg-[#1a2f45] border border-[#b87333]/20 rounded-lg p-6">
-          <h2 className="text-xs tracking-[0.2em] uppercase text-[#b87333] mb-4 font-semibold">
+        <div className="bg-[#1a2e10] border border-[#c9a227]/20 rounded-lg p-6">
+          <h2 className="text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-4 font-semibold">
             Recent Drafts
           </h2>
           {recentDrafts.length === 0 ? (
-            <p className="text-[#faf6f0]/40 text-sm">No drafts in progress.</p>
+            <p className="text-[#f0e6c8]/40 text-sm">No drafts in progress.</p>
           ) : (
             <ul className="space-y-2">
               {recentDrafts.map((post) => (
                 <li key={post.id}>
                   <Link
                     href={`/admin/post/${post.id}/edit`}
-                    className="flex items-center justify-between group py-2 border-b border-[#b87333]/10 last:border-0"
+                    className="flex items-center justify-between group py-2 border-b border-[#c9a227]/10 last:border-0"
                   >
-                    <span className="text-[#faf6f0]/80 group-hover:text-[#d4945a] text-sm transition-colors line-clamp-1">
+                    <span className="text-[#f0e6c8]/80 group-hover:text-[#e2b84e] text-sm transition-colors line-clamp-1">
                       {post.title}
                     </span>
-                    <span className="text-[#faf6f0]/30 text-xs ml-2 shrink-0">Edit →</span>
+                    <span className="text-[#f0e6c8]/30 text-xs ml-2 shrink-0">Edit →</span>
                   </Link>
                 </li>
               ))}
@@ -105,24 +105,24 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Top Posts by Views */}
-      <div className="mt-6 bg-[#1a2f45] border border-[#b87333]/20 rounded-lg p-6">
-        <h2 className="text-xs tracking-[0.2em] uppercase text-[#b87333] mb-4 font-semibold">
+      <div className="mt-6 bg-[#1a2e10] border border-[#c9a227]/20 rounded-lg p-6">
+        <h2 className="text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-4 font-semibold">
           Top Posts by Views
         </h2>
         {topPosts.length === 0 ? (
-          <p className="text-[#faf6f0]/40 text-sm">No published posts yet.</p>
+          <p className="text-[#f0e6c8]/40 text-sm">No published posts yet.</p>
         ) : (
           <ul className="space-y-2">
             {topPosts.map((post) => (
               <li key={post.id}>
                 <Link
                   href={`/admin/post/${post.id}/edit`}
-                  className="flex items-center justify-between group py-2 border-b border-[#b87333]/10 last:border-0"
+                  className="flex items-center justify-between group py-2 border-b border-[#c9a227]/10 last:border-0"
                 >
-                  <span className="text-[#faf6f0]/80 group-hover:text-[#d4945a] text-sm transition-colors line-clamp-1">
+                  <span className="text-[#f0e6c8]/80 group-hover:text-[#e2b84e] text-sm transition-colors line-clamp-1">
                     {post.title}
                   </span>
-                  <span className="text-[#b87333] text-xs ml-4 shrink-0 font-semibold tabular-nums">
+                  <span className="text-[#c9a227] text-xs ml-4 shrink-0 font-semibold tabular-nums">
                     {post.views.toLocaleString()} {post.views === 1 ? "view" : "views"}
                   </span>
                 </Link>
@@ -132,32 +132,32 @@ export default async function AdminDashboard() {
         )}
       </div>
 
-      {/* Meet the Admin */}
-      <div className="mt-6 bg-[#1a2f45] border border-[#b87333]/20 rounded-lg p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Meet the CEO */}
+      <div className="mt-6 bg-[#1a2e10] border border-[#c9a227]/20 rounded-lg p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xs tracking-[0.2em] uppercase text-[#b87333] mb-1 font-semibold">
-            Meet the Admin
+          <h2 className="text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-1 font-semibold">
+            Meet the CEO
           </h2>
-          <p className="text-[#faf6f0]/50 text-sm">
+          <p className="text-[#f0e6c8]/50 text-sm">
             Introduction page at{" "}
-            <Link href="/about" target="_blank" className="text-[#faf6f0]/70 hover:text-[#b87333] transition-colors underline underline-offset-2">
+            <Link href="/about" target="_blank" className="text-[#f0e6c8]/70 hover:text-[#c9a227] transition-colors underline underline-offset-2">
               /about
             </Link>
             {" · "}
             {aboutPost ? (
               aboutPost.status === PostStatus.PUBLISHED ? (
-                <span className="text-[#2dd4bf]">Published as Dispatch</span>
+                <span className="text-[#2d9c6e]">Published as Dispatch</span>
               ) : (
-                <span className="text-[#faf6f0]/40">Draft — not yet in feed</span>
+                <span className="text-[#f0e6c8]/40">Draft — not yet in feed</span>
               )
             ) : (
-              <span className="text-[#faf6f0]/40">Not yet created</span>
+              <span className="text-[#f0e6c8]/40">Not yet created</span>
             )}
           </p>
         </div>
         <Link
           href="/admin/about"
-          className="shrink-0 border border-[#b87333]/50 hover:border-[#b87333] text-[#b87333] hover:text-[#d4945a] px-4 py-2 rounded text-xs tracking-widest uppercase transition-colors"
+          className="shrink-0 border border-[#c9a227]/50 hover:border-[#c9a227] text-[#c9a227] hover:text-[#e2b84e] px-4 py-2 rounded text-xs tracking-widest uppercase transition-colors"
         >
           Edit Introduction
         </Link>

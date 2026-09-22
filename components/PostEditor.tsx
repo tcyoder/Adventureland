@@ -42,23 +42,22 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
   const [coverImage, setCoverImage] = useState(post?.coverImage ?? "");
   const DEFAULT_TAGS = [
     "walt-disney-world",
-    "tomorrowland",
-    "tomorrowland-1994",
+    "adventureland",
     "magic-kingdom",
+    "disneyland",
+    "jungle-cruise",
+    "skipper-tales",
+    "pirates",
+    "tiki-room",
+    "swiss-family-treehouse",
+    "adventure-trading-company",
     "blog",
-    "retro-future",
-    "retrofuturism",
-    "atompunk",
-    "raygun-gothic",
-    "atomic-age",
-    "league-of-planets",
-    "light-and-power-company",
-    "tomorrowland-light-and-power-co",
     "creative-writing",
     "short-fiction",
-    "speculative-fiction",
+    "exploration",
+    "jungle-adventure",
+    "river-expedition",
     "worldbuilding",
-    "citizens-of-tomorrowland",
   ];
   const [tags, setTags] = useState<string[]>(post?.tags.length ? post.tags : DEFAULT_TAGS);
   const [tagInput, setTagInput] = useState("");
@@ -188,15 +187,15 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
     <div className="max-w-4xl mx-auto">
       <div className="mb-6 flex items-center justify-between gap-4">
         <div>
-          <h1 className="font-[family-name:var(--font-josefin)] text-2xl font-bold tracking-wide text-[#faf6f0]">
+          <h1 className="font-[family-name:var(--font-josefin)] text-2xl font-bold tracking-wide text-[#f0e6c8]">
             {isNew ? "New Post" : "Edit Post"}
           </h1>
-          <div className="flex items-center gap-3 mt-1 text-xs text-[#faf6f0]/40">
+          <div className="flex items-center gap-3 mt-1 text-xs text-[#f0e6c8]/40">
             <span
               className={`px-2 py-0.5 rounded border ${
                 type === "PROMPTED"
-                  ? "border-[#2dd4bf]/30 text-[#2dd4bf]"
-                  : "border-[#b87333]/30 text-[#b87333]"
+                  ? "border-[#2d9c6e]/30 text-[#2d9c6e]"
+                  : "border-[#c9a227]/30 text-[#c9a227]"
               }`}
             >
               {type === "PROMPTED" ? "◉ Transmission" : "✍ Dispatch"}
@@ -213,7 +212,7 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
               </span>
             )}
             {lastSaved && (
-              <span className="text-[#faf6f0]/30">
+              <span className="text-[#f0e6c8]/30">
                 Saved {lastSaved.toLocaleTimeString()}
               </span>
             )}
@@ -241,14 +240,14 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
           <button
             onClick={() => savePost(PostStatus.DRAFT)}
             disabled={saving || !title}
-            className="px-4 py-2 border border-[#b87333]/50 text-[#b87333] rounded text-xs tracking-widest uppercase hover:bg-[#b87333]/10 transition-colors disabled:opacity-50"
+            className="px-4 py-2 border border-[#c9a227]/50 text-[#c9a227] rounded text-xs tracking-widest uppercase hover:bg-[#c9a227]/10 transition-colors disabled:opacity-50"
           >
             {saving ? "Saving…" : "Save Draft"}
           </button>
           <button
             onClick={() => savePost(PostStatus.PUBLISHED)}
             disabled={saving || !title || !content}
-            className="px-4 py-2 bg-[#b87333] hover:bg-[#d4945a] text-[#0d1b2a] font-bold rounded text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
+            className="px-4 py-2 bg-[#c9a227] hover:bg-[#e2b84e] text-[#0d1a08] font-bold rounded text-xs tracking-widest uppercase transition-colors disabled:opacity-50"
           >
             Publish
           </button>
@@ -263,11 +262,11 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
 
       {/* Prompt reference panel */}
       {(prompt ?? post?.prompt) && (
-        <div className="mb-6 bg-[#1a2f45] border border-[#2dd4bf]/20 rounded-lg p-4">
-          <div className="text-[#2dd4bf] text-xs tracking-[0.2em] uppercase font-semibold mb-2">
+        <div className="mb-6 bg-[#1a2e10] border border-[#2d9c6e]/20 rounded-lg p-4">
+          <div className="text-[#2d9c6e] text-xs tracking-[0.2em] uppercase font-semibold mb-2">
             ◉ Writing Prompt
           </div>
-          <p className="text-[#faf6f0]/70 italic text-sm leading-relaxed">
+          <p className="text-[#f0e6c8]/70 italic text-sm leading-relaxed">
             {(prompt ?? post?.prompt)?.promptText}
           </p>
         </div>
@@ -276,7 +275,7 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
       <div className="space-y-5">
         {/* Title */}
         <div>
-          <label className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2">
+          <label className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2">
             Title *
           </label>
           <input
@@ -284,13 +283,13 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter post title…"
-            className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] font-[family-name:var(--font-josefin)] text-xl tracking-wide transition-colors"
+            className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] font-[family-name:var(--font-josefin)] text-xl tracking-wide transition-colors"
           />
         </div>
 
         {/* Slug */}
         <div>
-          <label className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2">
+          <label className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2">
             Slug
           </label>
           <input
@@ -301,40 +300,40 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
               setSlug(e.target.value);
             }}
             placeholder="post-slug-here"
-            className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-2.5 text-[#faf6f0]/80 placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] text-sm font-mono transition-colors"
+            className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-2.5 text-[#f0e6c8]/80 placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] text-sm font-mono transition-colors"
           />
         </div>
 
         {/* Excerpt */}
         <div>
-          <label className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2">
-            Excerpt <span className="text-[#faf6f0]/30 normal-case tracking-normal">(optional)</span>
+          <label className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2">
+            Excerpt <span className="text-[#f0e6c8]/30 normal-case tracking-normal">(optional)</span>
           </label>
           <textarea
             value={excerpt}
             onChange={(e) => setExcerpt(e.target.value)}
             rows={2}
             placeholder="Short summary shown in post lists…"
-            className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-2.5 text-[#faf6f0]/80 placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] text-sm resize-none transition-colors"
+            className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-2.5 text-[#f0e6c8]/80 placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] text-sm resize-none transition-colors"
           />
         </div>
 
         {/* Tags */}
         <div>
-          <label className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2">
-            Tags <span className="text-[#faf6f0]/30 normal-case tracking-normal">(optional — press Enter or comma to add)</span>
+          <label className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2">
+            Tags <span className="text-[#f0e6c8]/30 normal-case tracking-normal">(optional — press Enter or comma to add)</span>
           </label>
           <div className="flex flex-wrap gap-2 mb-2">
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#1a2f45] border border-[#b87333]/30 rounded text-xs text-[#b87333] tracking-wide"
+                className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#1a2e10] border border-[#c9a227]/30 rounded text-xs text-[#c9a227] tracking-wide"
               >
                 #{tag}
                 <button
                   type="button"
                   onClick={() => removeTag(tag)}
-                  className="text-[#faf6f0]/30 hover:text-red-400 transition-colors leading-none"
+                  className="text-[#f0e6c8]/30 hover:text-red-400 transition-colors leading-none"
                 >
                   ×
                 </button>
@@ -353,29 +352,29 @@ export default function PostEditor({ post, promptId, prompt, defaultType }: Prop
             }}
             onBlur={() => { if (tagInput.trim()) addTag(tagInput); }}
             placeholder="walt-disney-world, fan-fiction, sci-fi…"
-            className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-2.5 text-[#faf6f0]/80 placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] text-sm transition-colors"
+            className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-2.5 text-[#f0e6c8]/80 placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] text-sm transition-colors"
           />
         </div>
 
         {/* Cover image */}
         <div>
-          <label className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2">
-            Cover Image <span className="text-[#faf6f0]/30 normal-case tracking-normal">(optional)</span>
+          <label className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2">
+            Cover Image <span className="text-[#f0e6c8]/30 normal-case tracking-normal">(optional)</span>
           </label>
           <div className="flex gap-2">
-            <label className="cursor-pointer bg-[#1a2f45] border border-[#b87333]/30 hover:border-[#b87333] rounded px-4 py-2.5 text-xs tracking-widest uppercase text-[#faf6f0]/60 hover:text-[#faf6f0] transition-colors">
+            <label className="cursor-pointer bg-[#1a2e10] border border-[#c9a227]/30 hover:border-[#c9a227] rounded px-4 py-2.5 text-xs tracking-widest uppercase text-[#f0e6c8]/60 hover:text-[#f0e6c8] transition-colors">
               {uploading ? "Uploading…" : "Upload"}
               <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
             </label>
           </div>
           {coverImage && (
-            <img src={coverImage} alt="Cover preview" className="mt-2 h-24 rounded object-cover border border-[#b87333]/20" />
+            <img src={coverImage} alt="Cover preview" className="mt-2 h-24 rounded object-cover border border-[#c9a227]/20" />
           )}
         </div>
 
         {/* Content editor */}
         <div>
-          <label className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2">
+          <label className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2">
             Content *
           </label>
           <RichTextEditor

@@ -45,16 +45,16 @@ export default function ChangePasswordPage() {
 
   return (
     <div className="max-w-sm mx-auto">
-      <h1 className="font-[family-name:var(--font-josefin)] text-2xl font-bold tracking-[0.1em] text-[#faf6f0] uppercase mb-8">
+      <h1 className="font-[family-name:var(--font-josefin)] text-2xl font-bold tracking-[0.1em] text-[#f0e6c8] uppercase mb-8">
         Change Password
       </h1>
 
-      <div className="bg-[#1a2f45] border border-[#b87333]/30 rounded-lg p-8">
+      <div className="bg-[#1a2e10] border border-[#c9a227]/30 rounded-lg p-8">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label
               htmlFor="currentPassword"
-              className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2"
+              className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2"
             >
               Current Password
             </label>
@@ -65,7 +65,7 @@ export default function ChangePasswordPage() {
               onChange={(e) => setCurrentPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] transition-colors"
+              className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -73,7 +73,7 @@ export default function ChangePasswordPage() {
           <div>
             <label
               htmlFor="newPassword"
-              className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2"
+              className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2"
             >
               New Password
             </label>
@@ -84,7 +84,7 @@ export default function ChangePasswordPage() {
               onChange={(e) => setNewPassword(e.target.value)}
               required
               autoComplete="new-password"
-              className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] transition-colors"
+              className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] transition-colors"
               placeholder="Minimum 8 characters"
             />
           </div>
@@ -92,7 +92,7 @@ export default function ChangePasswordPage() {
           <div>
             <label
               htmlFor="confirm"
-              className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2"
+              className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2"
             >
               Confirm New Password
             </label>
@@ -103,7 +103,7 @@ export default function ChangePasswordPage() {
               onChange={(e) => setConfirm(e.target.value)}
               required
               autoComplete="new-password"
-              className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] transition-colors"
+              className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -123,7 +123,7 @@ export default function ChangePasswordPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#b87333] hover:bg-[#d4945a] disabled:opacity-50 text-[#0d1b2a] font-bold py-3 rounded tracking-[0.1em] uppercase text-sm transition-colors"
+            className="w-full bg-[#c9a227] hover:bg-[#e2b84e] disabled:opacity-50 text-[#0d1a08] font-bold py-3 rounded tracking-[0.1em] uppercase text-sm transition-colors"
           >
             {loading ? "Updating…" : "Update Password"}
           </button>

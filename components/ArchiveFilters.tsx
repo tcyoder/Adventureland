@@ -31,8 +31,8 @@ export default function ArchiveFilters({ year, month, activeType }: Props) {
             href={href}
             className={`px-4 py-3 rounded-full text-xs tracking-[0.15em] uppercase border transition-all ${
               isActive
-                ? "bg-[#b87333] border-[#b87333] text-[#0d1b2a] font-bold"
-                : "border-[#b87333]/30 text-[#faf6f0]/60 hover:border-[#b87333]/60 hover:text-[#faf6f0]"
+                ? "bg-[#c9a227] border-[#c9a227] text-[#0d1a08] font-bold"
+                : "border-[#c9a227]/30 text-[#f0e6c8]/60 hover:border-[#c9a227]/60 hover:text-[#f0e6c8]"
             }`}
           >
             {label}

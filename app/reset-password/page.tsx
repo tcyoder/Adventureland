@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ResetPasswordPage() {
   const [token, setToken] = useState("");
@@ -41,28 +42,28 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1b2a] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#0d1a08] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
-          <div className="text-[#b87333] text-5xl mb-3">⚙</div>
-          <h1 className="font-[family-name:var(--font-josefin)] text-2xl font-bold tracking-[0.15em] text-[#faf6f0] uppercase">
-            Tomorrowland
+          <Image src="/images/logo-small.png" alt="Adventure Trading Company" width={80} height={80} className="h-20 w-20 object-contain mx-auto mb-3" />
+          <h1 className="font-[family-name:var(--font-josefin)] text-2xl font-bold tracking-[0.15em] text-[#f0e6c8] uppercase">
+            Adventure Trading
           </h1>
-          <p className="text-[#b87333] text-xs tracking-[0.3em] uppercase mt-1">
-            Light &amp; Power Co.
+          <p className="text-[#c9a227] text-xs tracking-[0.3em] uppercase mt-1">
+            Company
           </p>
           <div className="mt-4 deco-divider">
-            <span className="text-xs text-[#b87333]/60 tracking-widest">EMERGENCY RESET</span>
+            <span className="text-xs text-[#c9a227]/60 tracking-widest">EMERGENCY RESET</span>
           </div>
         </div>
 
-        <div className="bg-[#1a2f45] border border-[#b87333]/30 rounded-lg p-8">
+        <div className="bg-[#1a2e10] border border-[#c9a227]/30 rounded-lg p-8">
           {success ? (
             <div className="text-center space-y-4">
               <p className="text-green-400 text-sm">Password updated successfully.</p>
               <Link
                 href="/login"
-                className="inline-block bg-[#b87333] hover:bg-[#d4945a] text-[#0d1b2a] font-bold py-3 px-6 rounded tracking-[0.1em] uppercase text-sm transition-colors"
+                className="inline-block bg-[#c9a227] hover:bg-[#e2b84e] text-[#0d1a08] font-bold py-3 px-6 rounded tracking-[0.1em] uppercase text-sm transition-colors"
               >
                 Go to Login
               </Link>
@@ -72,7 +73,7 @@ export default function ResetPasswordPage() {
               <div>
                 <label
                   htmlFor="token"
-                  className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2"
+                  className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2"
                 >
                   Reset Token
                 </label>
@@ -83,7 +84,7 @@ export default function ResetPasswordPage() {
                   onChange={(e) => setToken(e.target.value)}
                   required
                   autoComplete="off"
-                  className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] transition-colors"
+                  className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] transition-colors"
                   placeholder="••••••••"
                 />
               </div>
@@ -91,7 +92,7 @@ export default function ResetPasswordPage() {
               <div>
                 <label
                   htmlFor="newPassword"
-                  className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2"
+                  className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2"
                 >
                   New Password
                 </label>
@@ -102,7 +103,7 @@ export default function ResetPasswordPage() {
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
                   autoComplete="new-password"
-                  className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] transition-colors"
+                  className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] transition-colors"
                   placeholder="Minimum 8 characters"
                 />
               </div>
@@ -110,7 +111,7 @@ export default function ResetPasswordPage() {
               <div>
                 <label
                   htmlFor="confirm"
-                  className="block text-xs tracking-[0.2em] uppercase text-[#b87333] mb-2"
+                  className="block text-xs tracking-[0.2em] uppercase text-[#c9a227] mb-2"
                 >
                   Confirm Password
                 </label>
@@ -121,7 +122,7 @@ export default function ResetPasswordPage() {
                   onChange={(e) => setConfirm(e.target.value)}
                   required
                   autoComplete="new-password"
-                  className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0] placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] transition-colors"
+                  className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8] placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] transition-colors"
                   placeholder="••••••••"
                 />
               </div>
@@ -135,7 +136,7 @@ export default function ResetPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#b87333] hover:bg-[#d4945a] disabled:opacity-50 text-[#0d1b2a] font-bold py-3 rounded tracking-[0.1em] uppercase text-sm transition-colors"
+                className="w-full bg-[#c9a227] hover:bg-[#e2b84e] disabled:opacity-50 text-[#0d1a08] font-bold py-3 rounded tracking-[0.1em] uppercase text-sm transition-colors"
               >
                 {loading ? "Resetting…" : "Reset Password"}
               </button>
@@ -144,7 +145,7 @@ export default function ResetPasswordPage() {
         </div>
 
         <p className="text-center mt-6">
-          <Link href="/login" className="text-[#faf6f0]/30 hover:text-[#faf6f0]/60 text-xs tracking-widest uppercase transition-colors">
+          <Link href="/login" className="text-[#f0e6c8]/30 hover:text-[#f0e6c8]/60 text-xs tracking-widest uppercase transition-colors">
             ← Back to Login
           </Link>
         </p>

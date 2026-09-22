@@ -69,10 +69,10 @@ export default function PromptBankManager({ prompts, total, unused }: Props) {
   return (
     <div>
       <div className="mb-8">
-        <h1 className="font-[family-name:var(--font-josefin)] text-3xl font-bold tracking-wide text-[#faf6f0] mb-1">
+        <h1 className="font-[family-name:var(--font-josefin)] text-3xl font-bold tracking-wide text-[#f0e6c8] mb-1">
           Prompt Bank
         </h1>
-        <p className="text-[#faf6f0]/40 text-sm">
+        <p className="text-[#f0e6c8]/40 text-sm">
           Pre-written prompts drawn one-by-one each week. Each Monday the cron job assigns the next
           unused prompt.
         </p>
@@ -87,22 +87,22 @@ export default function PromptBankManager({ prompts, total, unused }: Props) {
         ].map(({ label, value }) => (
           <div
             key={label}
-            className="bg-[#1a2f45] border border-[#b87333]/20 rounded-lg p-4 text-center"
+            className="bg-[#1a2e10] border border-[#c9a227]/20 rounded-lg p-4 text-center"
           >
-            <div className="font-[family-name:var(--font-josefin)] text-3xl font-bold text-[#b87333]">
+            <div className="font-[family-name:var(--font-josefin)] text-3xl font-bold text-[#c9a227]">
               {value}
             </div>
-            <div className="text-xs tracking-widest uppercase text-[#faf6f0]/50 mt-1">{label}</div>
+            <div className="text-xs tracking-widest uppercase text-[#f0e6c8]/50 mt-1">{label}</div>
           </div>
         ))}
       </div>
 
       {/* Add prompts form */}
-      <div className="bg-[#1a2f45] border border-[#b87333]/20 rounded-lg p-6 mb-8">
-        <h2 className="text-xs tracking-[0.2em] uppercase text-[#b87333] font-semibold mb-3">
+      <div className="bg-[#1a2e10] border border-[#c9a227]/20 rounded-lg p-6 mb-8">
+        <h2 className="text-xs tracking-[0.2em] uppercase text-[#c9a227] font-semibold mb-3">
           Add Prompts
         </h2>
-        <p className="text-[#faf6f0]/50 text-xs mb-4">
+        <p className="text-[#f0e6c8]/50 text-xs mb-4">
           Paste one or more prompts below. Separate multiple prompts with a blank line between each.
         </p>
 
@@ -111,10 +111,10 @@ export default function PromptBankManager({ prompts, total, unused }: Props) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             rows={10}
-            placeholder={`The Robot Newsboy's headlines have been wrong three times this week — not wrong exactly, but early, as if he knows what's coming before it happens. When the Transit Authority detective finally corners him on the Avenue of the Planets, he offers her a single folded slip of paper and says, "You'll want to read this before you arrest me."
+            placeholder={`A trader arrives at the outpost with a crate sealed in unfamiliar wax, marked only with the symbol of a river no one has charted. The skipper must decide: open it now, or wait until the monsoon passes and the jungle stops watching.
 
-A cargo crate arrives at Space Mountain with no manifest, no sender, and an address label written in a language that even the League of Planets' translators can't identify — except for one word, repeated in the corner: urgent.`}
-            className="w-full bg-[#0d1b2a] border border-[#b87333]/30 rounded px-4 py-3 text-[#faf6f0]/80 placeholder-[#faf6f0]/20 focus:outline-none focus:border-[#b87333] text-sm leading-relaxed resize-y transition-colors font-[family-name:var(--font-dm-sans)]"
+Deep in the temple ruins, the Jungle Cruise boat idles in still water. The skipper has told this joke a hundred times before — but tonight, something in the dark laughed back.`}
+            className="w-full bg-[#0d1a08] border border-[#c9a227]/30 rounded px-4 py-3 text-[#f0e6c8]/80 placeholder-[#f0e6c8]/20 focus:outline-none focus:border-[#c9a227] text-sm leading-relaxed resize-y transition-colors font-[family-name:var(--font-dm-sans)]"
           />
 
           {error && (
@@ -129,14 +129,14 @@ A cargo crate arrives at Space Mountain with no manifest, no sender, and an addr
           )}
 
           <div className="flex items-center justify-between">
-            <span className="text-[#faf6f0]/30 text-xs">
+            <span className="text-[#f0e6c8]/30 text-xs">
               {parsePrompts(input).length > 0 &&
                 `${parsePrompts(input).length} prompt${parsePrompts(input).length === 1 ? "" : "s"} detected`}
             </span>
             <button
               type="submit"
               disabled={saving || !input.trim()}
-              className="bg-[#b87333] hover:bg-[#d4945a] disabled:opacity-50 text-[#0d1b2a] font-bold px-5 py-2 rounded text-xs tracking-widest uppercase transition-colors"
+              className="bg-[#c9a227] hover:bg-[#e2b84e] disabled:opacity-50 text-[#0d1a08] font-bold px-5 py-2 rounded text-xs tracking-widest uppercase transition-colors"
             >
               {saving ? "Saving…" : "Add to Bank"}
             </button>
@@ -145,40 +145,40 @@ A cargo crate arrives at Space Mountain with no manifest, no sender, and an addr
       </div>
 
       {/* Prompt list */}
-      <div className="bg-[#1a2f45] border border-[#b87333]/20 rounded-lg overflow-hidden">
-        <div className="border-b border-[#b87333]/20 px-5 py-3 flex items-center justify-between">
-          <h2 className="text-xs tracking-[0.2em] uppercase text-[#b87333] font-semibold">
+      <div className="bg-[#1a2e10] border border-[#c9a227]/20 rounded-lg overflow-hidden">
+        <div className="border-b border-[#c9a227]/20 px-5 py-3 flex items-center justify-between">
+          <h2 className="text-xs tracking-[0.2em] uppercase text-[#c9a227] font-semibold">
             All Prompts (in queue order)
           </h2>
         </div>
 
         {prompts.length === 0 ? (
-          <p className="text-center py-12 text-[#faf6f0]/30 text-sm">
+          <p className="text-center py-12 text-[#f0e6c8]/30 text-sm">
             No prompts in the bank yet. Add some above.
           </p>
         ) : (
-          <ul className="divide-y divide-[#b87333]/10">
+          <ul className="divide-y divide-[#c9a227]/10">
             {prompts.map((p, i) => (
               <li key={p.id} className="px-5 py-4 flex gap-4 group">
-                <div className="shrink-0 w-7 h-7 rounded-full border border-[#b87333]/20 flex items-center justify-center text-xs text-[#faf6f0]/30 font-mono">
+                <div className="shrink-0 w-7 h-7 rounded-full border border-[#c9a227]/20 flex items-center justify-center text-xs text-[#f0e6c8]/30 font-mono">
                   {i + 1}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[#faf6f0]/80 text-sm leading-relaxed">{p.promptText}</p>
+                  <p className="text-[#f0e6c8]/80 text-sm leading-relaxed">{p.promptText}</p>
                   {p.usedAt && (
-                    <p className="text-[#faf6f0]/30 text-xs mt-1">
+                    <p className="text-[#f0e6c8]/30 text-xs mt-1">
                       Used {new Date(p.usedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     </p>
                   )}
                   {!p.usedAt && (
-                    <span className="inline-block mt-1 text-xs text-[#2dd4bf]/60 tracking-widest uppercase">
+                    <span className="inline-block mt-1 text-xs text-[#2d9c6e]/60 tracking-widest uppercase">
                       Available
                     </span>
                   )}
                 </div>
                 <button
                   onClick={() => handleDelete(p.id)}
-                  className="shrink-0 text-xs text-[#faf6f0]/20 hover:text-red-400 tracking-widest uppercase transition-colors opacity-0 group-hover:opacity-100"
+                  className="shrink-0 text-xs text-[#f0e6c8]/20 hover:text-red-400 tracking-widest uppercase transition-colors opacity-0 group-hover:opacity-100"
                 >
                   Remove
                 </button>

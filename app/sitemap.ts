@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { PostStatus } from "@/app/generated/prisma/client";
 import { SITE_URL } from "@/lib/config";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await db.post.findMany({
     where: { status: PostStatus.PUBLISHED },

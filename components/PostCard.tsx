@@ -16,7 +16,7 @@ export default function PostCard({ post }: { post: PostWithPrompt }) {
 
   return (
     <Link href={`/post/${post.slug}`} className="group block">
-      <article className="bg-[#1a2f45]/60 border border-[#b87333]/20 rounded-lg overflow-hidden hover:border-[#b87333]/50 transition-all duration-200 hover:bg-[#1a2f45]/80">
+      <article className="bg-[#1a2e10]/60 border border-[#c9a227]/20 rounded-lg overflow-hidden hover:border-[#c9a227]/50 transition-all duration-200 hover:bg-[#1a2e10]/80">
         {post.coverImage && (
           <div className="h-48 overflow-hidden">
             <img
@@ -31,7 +31,7 @@ export default function PostCard({ post }: { post: PostWithPrompt }) {
           <div className="flex items-center gap-3 mb-3">
             <PostTypeBadge type={post.type as PostType} />
             {post.publishedAt && (
-              <span className="text-[#faf6f0]/30 text-xs tracking-wider">
+              <span className="text-[#f0e6c8]/30 text-xs tracking-wider">
                 {new Date(post.publishedAt).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
@@ -41,15 +41,15 @@ export default function PostCard({ post }: { post: PostWithPrompt }) {
             )}
           </div>
 
-          <h2 className="font-[family-name:var(--font-josefin)] text-xl md:text-2xl font-bold tracking-wide text-[#faf6f0] group-hover:text-[#d4945a] transition-colors mb-2 leading-snug">
+          <h2 className="font-[family-name:var(--font-josefin)] text-xl md:text-2xl font-bold tracking-wide text-[#f0e6c8] group-hover:text-[#e2b84e] transition-colors mb-2 leading-snug">
             {post.title}
           </h2>
 
           {excerpt && (
-            <p className="text-[#faf6f0]/60 text-sm leading-relaxed line-clamp-3">{excerpt}</p>
+            <p className="text-[#f0e6c8]/60 text-sm leading-relaxed line-clamp-3">{excerpt}</p>
           )}
 
-          <div className="mt-4 flex items-center gap-1 text-[#b87333] text-xs tracking-widest md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+          <div className="mt-4 flex items-center gap-1 text-[#c9a227] text-xs tracking-widest md:opacity-0 md:group-hover:opacity-100 transition-opacity">
             <span>{post.type === "FREE" ? "READ DISPATCH" : "READ TRANSMISSION"}</span>
             <span>→</span>
           </div>

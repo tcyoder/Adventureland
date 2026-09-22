@@ -8,7 +8,7 @@ export default async function AboutEditorRedirect() {
   if (!post) {
     post = await db.post.create({
       data: {
-        title: "Meet the Admin",
+        title: "Meet the CEO",
         slug: "meet-the-admin",
         content: "",
         type: PostType.FREE,

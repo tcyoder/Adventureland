@@ -25,7 +25,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (dbCreds) {
           const isValid = await bcrypt.compare(password, dbCreds.passwordHash);
           if (!isValid) return null;
-          return { id: "admin", name: username, email: "admin@tomorrowland.local" };
+          return { id: "admin", name: username, email: "admin@adventuretradingco.local" };
         }
 
         // Fall back to env vars (and seed DB on first successful login)
@@ -38,12 +38,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const isValid = await bcrypt.compare(password, adminPasswordHash);
         if (!isValid) return null;
 
-        // Seed DB so future logins use DB
         await db.adminCredentials.create({
           data: { username, passwordHash: adminPasswordHash },
         });
 
-        return { id: "admin", name: username, email: "admin@tomorrowland.local" };
+        return { id: "admin", name: username, email: "admin@adventuretradingco.local" };
       },
     }),
   ],

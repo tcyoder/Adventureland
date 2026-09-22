@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props) {
   const { tag } = await params;
   return {
     title: `#${tag}`,
-    description: `Posts tagged with #${tag} on Tomorrowland Light & Power Co.`,
+    description: `Posts tagged with #${tag} on Adventure Trading Company.`,
   };
 }
 
@@ -39,14 +39,14 @@ export default async function TagPage({ params }: Props) {
         <div className="mb-8">
           <Link
             href="/"
-            className="text-[#faf6f0]/30 text-xs tracking-widest uppercase hover:text-[#b87333] transition-colors"
+            className="text-[#f0e6c8]/30 text-xs tracking-widest uppercase hover:text-[#c9a227] transition-colors"
           >
             ← All Posts
           </Link>
-          <h1 className="font-[family-name:var(--font-josefin)] text-3xl font-bold tracking-wide text-[#faf6f0] mt-3">
+          <h1 className="font-[family-name:var(--font-josefin)] text-3xl font-bold tracking-wide text-[#f0e6c8] mt-3">
             #{tag}
           </h1>
-          <p className="text-[#faf6f0]/40 text-sm mt-1">
+          <p className="text-[#f0e6c8]/40 text-sm mt-1">
             {posts.length} {posts.length === 1 ? "post" : "posts"}
           </p>
         </div>
@@ -58,7 +58,7 @@ export default async function TagPage({ params }: Props) {
         </div>
       </main>
 
-      <footer className="border-t border-[#b87333]/20 py-6 text-center text-[#faf6f0]/30 text-xs tracking-widest">
+      <footer className="border-t border-[#c9a227]/20 py-6 text-center text-[#f0e6c8]/30 text-xs tracking-widest">
         TOMORROWLAND LIGHT &amp; POWER CO.
       </footer>
     </div>

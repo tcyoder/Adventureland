@@ -24,7 +24,7 @@ export async function GET() {
       const pubDate = (post.publishedAt ?? post.updatedAt).toUTCString();
       const description = post.excerpt
         ? escapeXml(post.excerpt)
-        : "A story from Tomorrowland Light &amp; Power Co.";
+        : "A dispatch from the Adventure Trading Company.";
       const coverImage = post.coverImage
         ? `<enclosure url="${escapeXml(post.coverImage)}" type="image/jpeg"/>`
         : "";

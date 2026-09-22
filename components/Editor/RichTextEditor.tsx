@@ -95,8 +95,8 @@ export default function RichTextEditor({ content, onChange, placeholder }: Props
       }}
       className={`px-2.5 py-1.5 text-xs rounded transition-colors ${
         isActive
-          ? "bg-[#b87333] text-[#0d1b2a]"
-          : "text-[#faf6f0]/60 hover:text-[#faf6f0] hover:bg-[#0d1b2a]/50"
+          ? "bg-[#c9a227] text-[#0d1a08]"
+          : "text-[#f0e6c8]/60 hover:text-[#f0e6c8] hover:bg-[#0d1a08]/50"
       }`}
       title={label}
     >
@@ -105,31 +105,31 @@ export default function RichTextEditor({ content, onChange, placeholder }: Props
   );
 
   return (
-    <div className="border border-[#b87333]/30 rounded-lg overflow-hidden bg-[#0d1b2a]/50">
+    <div className="border border-[#c9a227]/30 rounded-lg overflow-hidden bg-[#0d1a08]/50">
       {/* Toolbar */}
-      <div className="border-b border-[#b87333]/20 bg-[#1a2f45] px-2 py-1.5 flex flex-wrap gap-0.5">
+      <div className="border-b border-[#c9a227]/20 bg-[#1a2e10] px-2 py-1.5 flex flex-wrap gap-0.5">
         {btn("H1", () => editor.chain().focus().toggleHeading({ level: 1 }).run(), editor.isActive("heading", { level: 1 }))}
         {btn("H2", () => editor.chain().focus().toggleHeading({ level: 2 }).run(), editor.isActive("heading", { level: 2 }))}
         {btn("H3", () => editor.chain().focus().toggleHeading({ level: 3 }).run(), editor.isActive("heading", { level: 3 }))}
-        <span className="w-px mx-1 bg-[#b87333]/20 self-stretch" />
+        <span className="w-px mx-1 bg-[#c9a227]/20 self-stretch" />
         {btn("B", () => editor.chain().focus().toggleBold().run(), editor.isActive("bold"))}
         {btn("I", () => editor.chain().focus().toggleItalic().run(), editor.isActive("italic"))}
         {btn("U", () => editor.chain().focus().toggleUnderline().run(), editor.isActive("underline"))}
         {btn("S", () => editor.chain().focus().toggleStrike().run(), editor.isActive("strike"))}
-        <span className="w-px mx-1 bg-[#b87333]/20 self-stretch" />
+        <span className="w-px mx-1 bg-[#c9a227]/20 self-stretch" />
         {btn("• List", () => editor.chain().focus().toggleBulletList().run(), editor.isActive("bulletList"))}
         {btn("1. List", () => editor.chain().focus().toggleOrderedList().run(), editor.isActive("orderedList"))}
         {btn("❝", () => editor.chain().focus().toggleBlockquote().run(), editor.isActive("blockquote"))}
-        <span className="w-px mx-1 bg-[#b87333]/20 self-stretch" />
+        <span className="w-px mx-1 bg-[#c9a227]/20 self-stretch" />
         {btn("`Code`", () => editor.chain().focus().toggleCode().run(), editor.isActive("code"))}
         {btn("```", () => editor.chain().focus().toggleCodeBlock().run(), editor.isActive("codeBlock"))}
-        <span className="w-px mx-1 bg-[#b87333]/20 self-stretch" />
+        <span className="w-px mx-1 bg-[#c9a227]/20 self-stretch" />
         {btn("Link", setLink, editor.isActive("link"))}
         <label
           className={`px-2.5 py-1.5 text-xs rounded transition-colors cursor-pointer ${
             uploading
-              ? "text-[#faf6f0]/30 cursor-not-allowed"
-              : "text-[#faf6f0]/60 hover:text-[#faf6f0] hover:bg-[#0d1b2a]/50"
+              ? "text-[#f0e6c8]/30 cursor-not-allowed"
+              : "text-[#f0e6c8]/60 hover:text-[#f0e6c8] hover:bg-[#0d1a08]/50"
           }`}
           title="Upload image file"
         >
@@ -153,7 +153,7 @@ export default function RichTextEditor({ content, onChange, placeholder }: Props
       )}
 
       {/* Editor content */}
-      <div className="p-5 text-[#faf6f0]/90">
+      <div className="p-5 text-[#f0e6c8]/90">
         <EditorContent editor={editor} />
       </div>
     </div>
