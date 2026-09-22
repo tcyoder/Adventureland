@@ -10,7 +10,7 @@ Personal blog site for writing short stories and dispatches set in the world of 
 - **Tiptap 3** rich text editor (client-side only)
 - **Vercel Blob** for image storage
 - **Vercel Analytics**
-- **Vercel** deployment with cron job
+- **Vercel** deployment (no cron)
 
 ## Theme
 
@@ -27,12 +27,22 @@ Personal blog site for writing short stories and dispatches set in the world of 
 
 ## Content Types
 
-- **Transmissions** (PROMPTED) — weekly writing prompt responses
+- **Transmissions** (PROMPTED) — prompt-driven stories; admin picks a prompt from the bank when creating
 - **Dispatches** (FREE) — free-form explorer's journal entries
+
+## Transmission / Prompt Workflow
+
+No cron or weekly timer. When creating a new post:
+1. Choose type: **Dispatch** or **Transmission** via pill buttons
+2. If Transmission: a prompt picker appears showing all available (unused) prompts first, then previously used ones
+3. Selecting a prompt attaches it to the post and marks it used in the bank (atomically on save)
+4. Type and prompt are immutable after the post is first saved
+
+`Post.promptBankId` links directly to `PromptBank`. The legacy `Post.promptId → WeeklyPrompt` relation is preserved for any existing posts but not used for new ones.
 
 ## Post Bank
 
-Uses 10 writing prompts at a time (not 25 like the Tomorrowland project).
+Prompts managed via `/admin/prompts`. No fixed size limit. Add prompts any time — they queue up for future Transmissions.
 
 ## Public Routes
 
@@ -41,7 +51,7 @@ Uses 10 writing prompts at a time (not 25 like the Tomorrowland project).
 | `/` | Homepage, 5 latest posts, filter by type |
 | `/post/[slug]` | Single post view with prompt display |
 | `/archive` | Month/year browsable archive |
-| `/about` | "Meet the Skipper" introduction page |
+| `/about` | "Meet the CEO" introduction page |
 | `/tag/[tag]` | Tag-filtered post list |
 | `/feed.xml` | RSS 2.0 feed |
 | `/sitemap.xml` | Auto-generated sitemap |
@@ -51,19 +61,19 @@ Uses 10 writing prompts at a time (not 25 like the Tomorrowland project).
 
 | Route | Description |
 |-------|-------------|
-| `/admin` | Dashboard (stats, prompt, drafts) |
+| `/admin` | Chart Room dashboard (stats, transmissions panel, drafts) |
 | `/admin/posts` | All posts table |
-| `/admin/post/new` | New post editor |
+| `/admin/post/new` | New post editor (type selector + prompt picker) |
 | `/admin/post/[id]/edit` | Edit existing post |
-| `/admin/about` | Find/create "Meet the Skipper" post |
+| `/admin/about` | Find/create "Meet the CEO" post |
 | `/admin/prompts` | Prompt bank manager |
 | `/admin/change-password` | Change password |
 
 ## Database Schema
 
-- **Post** — content, slug, type (PROMPTED/FREE), status, tags, views
-- **WeeklyPrompt** — weekly writing brief linked to posts
-- **PromptBank** — pre-written prompts, assigned weekly by cron
+- **Post** — content, slug, type (PROMPTED/FREE), status, tags, views, `promptBankId` (FK to PromptBank for new Transmissions), `promptId` (legacy FK to WeeklyPrompt)
+- **WeeklyPrompt** — legacy model, preserved for existing posts, no longer used for new ones
+- **PromptBank** — pool of writing prompts; `usedAt` stamped when attached to a post
 - **AdminCredentials** — single admin user, bcrypt-hashed
 
 ## Key Files
@@ -72,8 +82,8 @@ Uses 10 writing prompts at a time (not 25 like the Tomorrowland project).
 - `lib/auth.ts` — Auth.js credentials provider
 - `lib/db.ts` — Prisma + Neon adapter
 - `proxy.ts` — Route protection for /admin/* (Node.js runtime)
-- `components/PostEditor.tsx` — Rich text post editor with auto-save
-- `components/PromptPanel.tsx` — Weekly prompt widget
+- `components/PostEditor.tsx` — Rich text post editor with type toggle, prompt picker, auto-save
+- `components/PromptPanel.tsx` — Transmissions dashboard panel (bank count + recent transmissions)
 - `components/PromptBankManager.tsx` — Add/delete prompts
 
 ## Prisma Notes
@@ -91,21 +101,20 @@ NEXTAUTH_SECRET=        # Random 32+ char string
 NEXTAUTH_URL=           # https://yourdomain.com (or http://localhost:3000)
 ADMIN_USERNAME=         # e.g., admin
 ADMIN_PASSWORD_HASH=    # bcrypt hash of password
-CRON_SECRET=            # Secret for Vercel cron validation
 RESET_SECRET=           # Emergency password reset secret (keep offline)
 BLOB_READ_WRITE_TOKEN=  # Vercel Blob token
 ```
 
-## Weekly Prompt Cron
-
-- Vercel cron: `vercel.json` → Mondays at 1:00 PM UTC
-- Endpoint: `/api/cron/generate-prompt` (GET with `x-cron-secret` header)
-- Manual trigger: POST from admin dashboard
-
 ## About/Portrait
 
-- "Meet the Skipper" post stored with slug `meet-the-admin`
-- Portrait: `public/images/admin-portrait.png` — hardcoded in `/about` page, not in post content (won't appear in Dispatch feed)
+- "Meet the CEO" post stored with slug `meet-the-admin`
+- Cover image: `public/images/logo-big.jpg` (set directly on the post record)
+- Portrait: `public/images/admin-portrait.png` — hardcoded in `/about` page, not in post content
+- Admin persona: Chief Expeditionary Officer Arthur "Art" Bellweather
+
+## Feed Ordering
+
+`publishedAt` is stamped only on first publish and never updated on edits or republish. Feed and archive order is therefore stable — editing a post never moves it.
 
 ## Dev Commands
 
